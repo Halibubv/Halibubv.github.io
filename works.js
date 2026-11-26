@@ -10,4 +10,12 @@ window.WORKS = [
     image: "vinland/screenshots/desktop-nutrition.jpg",
     link: "vinland/",
   },
+  {
+    title: "Пенка",
+    kind: "Демо-сайт кофейни",
+    text: "Сайт вымышленной кофейни: меню по разделам, онлайн-бронь столика с выбором дня и времени, часы работы и схема проезда. Плавные анимации на GSAP.",
+    stack: ["HTML", "CSS", "JavaScript", "GSAP"],
+    image: "penka/screenshot.jpg",
+    link: "penka/",
+  },
 ];

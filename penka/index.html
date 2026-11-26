@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пенка — кофейня (демо-сайт)</title>
+<meta name="description" content="Демо-сайт вымышленной кофейни «Пенка»: меню, бронь столика, часы работы и карта. Пример работы Андрея (Halibubv).">
+<meta name="theme-color" content="#f6ede1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c8663b'/%3E%3Cpath d='M9 13h12v5a6 6 0 0 1-12 0z' fill='%23fbf6ef'/%3E%3Cpath d='M21 14h1.5a2.5 2.5 0 0 1 0 5H21' fill='none' stroke='%23fbf6ef' stroke-width='1.8'/%3E%3C/svg%3E">
+<meta property="og:title" content="Пенка — кофейня (демо-сайт)">
+<meta property="og:description" content="Меню, онлайн-бронь столика, часы работы. Демо-проект.">
+<meta property="og:image" content="screenshot.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/lenis.css">
+<link rel="stylesheet" href="style.css">
+<script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anim");</script>
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+
+<div class="demo-bar" role="note">
+  <span><b>Демо-сайт.</b> Кофейня «Пенка» вымышленная: адрес, меню и цены придуманы для примера.</span>
+  <a href="../">Сделал Halibubv →</a>
+</div>
+
+<header class="head" id="top">
+  <div class="wrap head-in">
+    <a class="logo" href="#top" aria-label="Пенка, наверх">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 12h15v6a7.5 7.5 0 0 1-15 0z"/><path class="logo-handle" d="M22 13.5h1.6a3 3 0 0 1 0 6H22"/><path class="logo-steam" d="M12 9c-1-1.4 1-2.2 0-3.6M17 9c-1-1.4 1-2.2 0-3.6"/></svg>
+      Пенка
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#menu">Меню</a>
+      <a href="#about">О нас</a>
+      <a href="#book">Бронь</a>
+      <a href="#visit">Как найти</a>
+    </nav>
+    <a class="btn btn-sm" href="#book">Забронировать</a>
+  </div>
+  <div class="progress" aria-hidden="true"><span></span></div>
+</header>
+
+<main id="main">
+
+<!-- Первый экран -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="eyebrow reveal"><span class="dot live-dot"></span><span id="heroStatus">Открыто с 8:00</span></p>
+      <h1 class="hero-title" aria-label="Кофе, ради которого хочется проснуться пораньше">
+        <span class="line"><span>Кофе, ради</span></span>
+        <span class="line"><span>которого <em>хочется</em></span></span>
+        <span class="line"><span>проснуться пораньше</span></span>
+      </h1>
+      <p class="lead reveal">Маленькая кофейня у сквера: свежая обжарка, завтраки до полудня и круассаны из своей печи. Заходите на чашку или бронируйте столик на вечер.</p>
+      <div class="hero-cta reveal">
+        <a class="btn" href="#book">Забронировать столик</a>
+        <a class="btn btn-ghost" href="#menu">Смотреть меню</a>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="sun"></div>
+      <svg class="cup" viewBox="0 0 400 400">
+        <defs>
+          <radialGradient id="coffee" cx="50%" cy="45%" r="60%">
+            <stop offset="0" stop-color="#b9774a"/>
+            <stop offset=".7" stop-color="#7a4628"/>
+            <stop offset="1" stop-color="#4a2a18"/>
+          </radialGradient>
+        </defs>
+        <g class="steam">
+          <path d="M165 120c-18-26 18-38 0-66" />
+          <path d="M200 112c-18-26 18-38 0-70" />
+          <path d="M235 120c-18-26 18-38 0-66" />
+        </g>
+        <ellipse class="saucer" cx="200" cy="318" rx="150" ry="34"/>
+        <ellipse class="saucer-in" cx="200" cy="312" rx="96" ry="18"/>
+        <path class="handle" d="M300 196c46-6 56 58 4 76" />
+        <path class="cup-body" d="M92 170h216c0 92-36 142-108 142S92 262 92 170z"/>
+        <ellipse class="cup-rim" cx="200" cy="170" rx="108" ry="28"/>
+        <ellipse cx="200" cy="172" rx="96" ry="22" fill="url(#coffee)"/>
+        <path class="latte" d="M200 186c-22-8-30-20-22-26 6-4 14 0 22 8 8-8 16-12 22-8 8 6 0 18-22 26z"/>
+        <path class="latte-swirl" d="M160 174c12-8 26 4 40 0s28-10 40-2" />
+      </svg>
+      <span class="bean b1"></span><span class="bean b2"></span><span class="bean b3"></span><span class="bean b4"></span>
+      <div class="sticker">
+        <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs><text><textPath href="#circ">свежая обжарка · свежая обжарка ·</textPath></text></svg>
+        <span>☕</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap" aria-hidden="true"><div class="ticker">
+  <div class="ticker-track">
+    <span>эспрессо</span><i>✦</i><span>фильтр-кофе</span><i>✦</i><span>раф с лавандой</span><i>✦</i><span>сырники до 12:00</span><i>✦</i><span>круассаны из своей печи</span><i>✦</i><span>какао на овсяном</span><i>✦</i>
+    <span>эспрессо</span><i>✦</i><span>фильтр-кофе</span><i>✦</i><span>раф с лавандой</span><i>✦</i><span>сырники до 12:00</span><i>✦</i><span>круассаны из своей печи</span><i>✦</i><span>какао на овсяном</span><i>✦</i>
+  </div>
+</div></div>
+
+<!-- Меню -->
+<section class="section" id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Меню</p>
+      <h2 class="split">Что сегодня в чашке и на тарелке</h2>
+    </div>
+
+    <div class="tabs reveal" role="tablist" aria-label="Разделы меню">
+      <button role="tab" aria-selected="true" data-cat="coffee">Кофе</button>
+      <button role="tab" aria-selected="false" data-cat="other">Не кофе</button>
+      <button role="tab" aria-selected="false" data-cat="breakfast">Завтраки</button>
+      <button role="tab" aria-selected="false" data-cat="bakery">Выпечка</button>
+      <span class="tab-pill" aria-hidden="true"></span>
+    </div>
+
+    <div class="menu-grid" id="menuGrid" role="tabpanel" aria-live="polite"></div>
+    <p class="menu-note reveal">Любой кофе можно на овсяном, миндальном или безлактозном молоке. Цены условные, это демо.</p>
+  </div>
+</section>
+
+<!-- О нас -->
+<section class="section about" id="about">
+  <div class="wrap about-in">
+    <div class="about-card reveal">
+      <svg class="draw" viewBox="0 0 300 260" aria-hidden="true">
+        <path d="M70 170V100a80 80 0 0 1 160 0v70M150 20v150M70 100h160" />
+        <path d="M36 182h228M78 182v64M222 182v64" />
+        <path d="M96 160h32v6a16 15 0 0 1-32 0zM128 164a6 6 0 0 1 0 12M168 160h32v6a16 15 0 0 1-32 0zM200 164a6 6 0 0 1 0 12" />
+        <path d="M106 150c-5-8 5-12 0-22M118 150c-5-8 5-12 0-22M178 150c-5-8 5-12 0-22M190 150c-5-8 5-12 0-22" />
+        <path d="M236 182l4-20h18l4 20zM249 162c-2-14-12-22-24-26M249 162c2-16 10-24 22-28M249 162v-34" />
+      </svg>
+      <p class="hand">так выглядит наш<br>любимый угол у окна</p>
+    </div>
+    <div>
+      <div class="sec-head reveal">
+        <p class="eyebrow">О нас</p>
+        <h2 class="split">Медленное место в быстром городе</h2>
+      </div>
+      <ul class="facts">
+        <li class="reveal"><span class="ic">01</span><div><h3>Обжариваем сами</h3><p>Небольшими партиями каждую неделю, поэтому зерно всегда свежее и с понятным вкусом.</p></div></li>
+        <li class="reveal"><span class="ic">02</span><div><h3>Печём с утра</h3><p>Круассаны, улитки с корицей и хлеб на закваске выходят из печи к открытию.</p></div></li>
+        <li class="reveal"><span class="ic">03</span><div><h3>Можно поработать</h3><p>Розетки у каждого столика, быстрый Wi-Fi и тихий зал до обеда.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Путь зерна -->
+<section class="process" id="process" aria-labelledby="procTitle">
+  <div class="process-pin">
+    <div class="wrap process-head">
+      <p class="eyebrow">Путь зерна</p>
+      <h2 id="procTitle" class="split">От мешка с зерном до вашей чашки</h2>
+    </div>
+    <div class="process-track">
+      <article class="step" style="--bg:#e8d3b8">
+        <svg viewBox="0 0 200 160" aria-hidden="true"><path class="s-fill" d="M50 40c0-12 100-12 100 0l10 100H40z"/><path d="M50 40c0-12 100-12 100 0l10 100H40zM62 30c10-12 66-12 76 0"/><g class="s-beans"><ellipse cx="85" cy="90" rx="9" ry="12" transform="rotate(-20 85 90)"/><ellipse cx="112" cy="84" rx="9" ry="12" transform="rotate(25 112 84)"/><ellipse cx="100" cy="112" rx="9" ry="12" transform="rotate(-5 100 112)"/></g></svg>
+        <span class="step-n">01</span>
+        <h3>Выбираем зерно</h3>
+        <p>Пробуем партии с разных ферм и берём только те, что нравятся всей команде.</p>
+      </article>
+      <article class="step" style="--bg:#e0a458">
+        <svg viewBox="0 0 200 160" aria-hidden="true"><path class="s-fill" d="M40 70h120v50a20 20 0 0 1-20 20H60a20 20 0 0 1-20-20z"/><path d="M40 70h120v50a20 20 0 0 1-20 20H60a20 20 0 0 1-20-20zM70 70V40h60v30M100 40V22"/><g class="s-heat"><path d="M60 150c-6-6 6-8 0-14M100 150c-6-6 6-8 0-14M140 150c-6-6 6-8 0-14"/></g><circle cx="100" cy="100" r="18"/></svg>
+        <span class="step-n">02</span>
+        <h3>Обжариваем сами</h3>
+        <p>Небольшими партиями каждую неделю, чтобы зерно не успевало выдохнуться.</p>
+      </article>
+      <article class="step" style="--bg:#c8663b" data-dark>
+        <svg viewBox="0 0 200 160" aria-hidden="true"><path class="s-fill" d="M70 20h60l-8 50H78z"/><path d="M70 20h60l-8 50H78zM62 70h76v60H62zM62 130h76M100 92v16"/><g class="s-spin"><path d="M150 46h20M160 36v20"/></g><circle cx="100" cy="100" r="10"/></svg>
+        <span class="step-n">03</span>
+        <h3>Мелем перед чашкой</h3>
+        <p>Помол под каждый напиток и только перед тем, как готовить. Никаких запасов.</p>
+      </article>
+      <article class="step" style="--bg:#5a3a2a" data-dark>
+        <svg viewBox="0 0 200 160" aria-hidden="true"><path class="s-fill" d="M50 70h100v20a50 50 0 0 1-100 0z"/><path d="M50 70h100v20a50 50 0 0 1-100 0zM150 78h8a14 14 0 0 1 0 28h-12M30 150h140"/><g class="s-steam"><path d="M80 56c-6-10 6-14 0-26M100 56c-6-10 6-14 0-26M120 56c-6-10 6-14 0-26"/></g></svg>
+        <span class="step-n">04</span>
+        <h3>Подаём с пенкой</h3>
+        <p>Бариста рисует на капучино сердечко. Или лист, если попросите.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Бронь -->
+<section class="section book" id="book">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Бронь столика</p>
+      <h2 class="split">Займём для вас столик</h2>
+      <p class="sub">Выберите день, время и сколько вас будет. Подтвердим звонком.</p>
+    </div>
+
+    <form class="book-in reveal" id="bookForm" novalidate>
+      <div class="book-form">
+        <fieldset>
+          <legend>День</legend>
+          <div class="chips days" id="days"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Время <span class="muted" id="slotHint"></span></legend>
+          <div class="chips slots" id="slots"></div>
+          <p class="err" id="slotErr" hidden>Выберите время</p>
+        </fieldset>
+
+        <fieldset class="guests-row">
+          <legend>Гостей</legend>
+          <div class="stepper">
+            <button type="button" id="gMinus" aria-label="Меньше гостей">−</button>
+            <output id="gCount" aria-live="polite">2</output>
+            <button type="button" id="gPlus" aria-label="Больше гостей">+</button>
+          </div>
+          <div class="seats" id="seats" aria-hidden="true"></div>
+        </fieldset>
+
+        <div class="fields">
+          <label class="field">
+            <input id="name" name="name" placeholder=" " autocomplete="name" required>
+            <span>Имя</span>
+            <small class="err">Как к вам обращаться?</small>
+          </label>
+          <label class="field">
+            <input id="phone" name="phone" type="tel" placeholder=" " autocomplete="tel" inputmode="tel" required>
+            <span>Телефон</span>
+            <small class="err">Нужен номер целиком</small>
+          </label>
+          <label class="field field-wide">
+            <textarea id="comment" name="comment" rows="2" placeholder=" "></textarea>
+            <span>Пожелания (необязательно)</span>
+          </label>
+        </div>
+      </div>
+
+      <aside class="ticket" aria-live="polite">
+        <div class="ticket-top">
+          <p class="eyebrow">Ваша бронь</p>
+          <p class="ticket-big" id="tDay">—</p>
+          <dl>
+            <div><dt>Время</dt><dd id="tTime">не выбрано</dd></div>
+            <div><dt>Гостей</dt><dd id="tGuests">2</dd></div>
+            <div><dt>Столик</dt><dd id="tTable">у окна</dd></div>
+          </dl>
+        </div>
+        <div class="ticket-cut" aria-hidden="true"></div>
+        <div class="ticket-bottom">
+          <button class="btn btn-full" type="submit" id="submitBtn">Забронировать</button>
+          <p class="tiny">Это демо: заявка никуда не отправится.</p>
+        </div>
+
+        <div class="done" id="done" hidden>
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <clipPath id="mug"><path d="M28 40h56v34a28 28 0 0 1-56 0z"/></clipPath>
+            <g clip-path="url(#mug)"><rect class="fill" x="20" y="40" width="80" height="70"/></g>
+            <path class="mug-line" d="M28 40h56v34a28 28 0 0 1-56 0zM84 48h6a10 10 0 0 1 0 20h-6"/>
+            <path class="check" d="M44 66l9 9 17-19"/>
+          </svg>
+          <p class="ticket-big">Столик ваш!</p>
+          <p id="doneText"></p>
+          <p class="tiny">В настоящем сайте заявка ушла бы администратору в Telegram или CRM.</p>
+          <button type="button" class="btn btn-ghost btn-sm" id="again">Новая бронь</button>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<!-- Как найти -->
+<section class="section visit" id="visit">
+  <div class="wrap visit-in">
+    <div>
+      <div class="sec-head reveal">
+        <p class="eyebrow">Как найти</p>
+        <h2 class="split">Заходите на огонёк</h2>
+      </div>
+      <div class="info reveal">
+        <p class="addr">ул. Липовая, 12<br><span class="muted">вымышленный адрес · вход со стороны сквера</span></p>
+        <div class="status" id="status"><span class="dot"></span><span id="statusText">…</span></div>
+        <table class="hours" id="hours">
+          <tbody>
+            <tr data-d="1"><th>Пн</th><td>8:00 — 21:00</td></tr>
+            <tr data-d="2"><th>Вт</th><td>8:00 — 21:00</td></tr>
+            <tr data-d="3"><th>Ср</th><td>8:00 — 21:00</td></tr>
+            <tr data-d="4"><th>Чт</th><td>8:00 — 21:00</td></tr>
+            <tr data-d="5"><th>Пт</th><td>8:00 — 23:00</td></tr>
+            <tr data-d="6"><th>Сб</th><td>9:00 — 23:00</td></tr>
+            <tr data-d="0"><th>Вс</th><td>9:00 — 20:00</td></tr>
+          </tbody>
+        </table>
+        <p class="contacts">Телефон и соцсети появятся у настоящей кофейни. Здесь — пример блока.</p>
+      </div>
+    </div>
+
+    <div class="map reveal" aria-label="Схема проезда (иллюстрация)" role="img">
+      <svg viewBox="0 0 520 420" aria-hidden="true">
+        <rect width="520" height="420" class="m-bg"/>
+        <path class="m-park" d="M300 40h180v150H300z"/>
+        <circle class="m-tree" cx="340" cy="80" r="14"/><circle class="m-tree" cx="380" cy="120" r="18"/><circle class="m-tree" cx="440" cy="70" r="12"/><circle class="m-tree" cx="430" cy="150" r="16"/><circle class="m-tree" cx="335" cy="160" r="10"/>
+        <path class="m-water" d="M0 340c80-30 140 20 220-6s160-40 300-10v96H0z"/>
+        <g class="m-road">
+          <path d="M0 220H520"/><path d="M270 0V420"/><path d="M60 0c20 120 40 260 10 420"/><path d="M270 220L520 400"/>
+        </g>
+        <g class="m-road-in">
+          <path d="M0 220H520"/><path d="M270 0V420"/><path d="M60 0c20 120 40 260 10 420"/><path d="M270 220L520 400"/>
+        </g>
+        <path class="m-route" d="M120 400c10-60 20-110 60-150s70-30 90-30 20-6 30-20"/>
+        <rect class="m-block" x="100" y="40" width="140" height="150" rx="6"/><rect class="m-block" x="100" y="250" width="140" height="70" rx="6"/><rect class="m-block" x="300" y="250" width="80" height="60" rx="6"/>
+        <text x="372" y="34" class="m-label">сквер</text>
+        <text x="420" y="212" class="m-label">ул. Липовая</text>
+        <text x="132" y="398" class="m-label">остановка</text>
+        <circle cx="120" cy="404" r="5" class="m-stop"/>
+        <g class="pin" transform="translate(300 200)">
+          <circle class="pin-pulse" r="18"/>
+          <path d="M0 0c-14-18-20-28-20-38a20 20 0 0 1 40 0c0 10-6 20-20 38z"/>
+          <circle cy="-38" r="7" class="pin-in"/>
+        </g>
+      </svg>
+      <p class="map-cap">Схема-иллюстрация. На реальном сайте здесь будет Яндекс.Карта.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="logo-big">Пенка<span>.</span></p>
+    <p>Демо-проект для портфолио. Кофейня, адрес и цены вымышленные.<br>
+      Дизайн и вёрстка: <a href="../">Андрей (Halibubv)</a> · Telegram <a href="https://t.me/TotidJ76" target="_blank" rel="noopener">@TotidJ76</a></p>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/SplitText.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
