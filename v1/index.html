@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halibubv — сайты на заказ</title>
+<meta name="description" content="Делаю сайты и веб-приложения под ключ: дизайн, вёрстка, сервер, база, выкладка в интернет.">
+<meta name="theme-color" content="#08080a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308080a'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23ff8a3d'/%3E%3C/svg%3E">
+<meta property="og:title" content="Halibubv — сайты на заказ">
+<meta property="og:description" content="Сайты и веб-приложения под ключ. Кейс: ВИНЛАНД, дневник тренировок и питания.">
+<meta property="og:image" content="../vinland/screenshots/desktop-nutrition.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Прячем первый экран до анимации только если JS работает и движение разрешено.
+  // В CSS есть страховка: через 2.5 с всё проявится, даже если GSAP не загрузился.
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js-anim");
+</script>
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-in">
+    <a class="logo" href="https://github.com/Halibubv" target="_blank" rel="noopener">Halibubv<span class="logo-dot" aria-hidden="true"></span></a>
+    <nav aria-label="Разделы">
+      <ul>
+        <li><a href="#about">Обо мне</a></li>
+        <li><a href="#works">Работы</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="#contacts">Обсудить проект</a>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="hero-title">
+  <canvas class="hero-canvas" id="particles" aria-hidden="true"></canvas>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <span class="tag hero-fade"><span class="pulse" aria-hidden="true"></span>Беру новые заказы</span>
+    <h1 id="hero-title" class="hero-title">Делаю сайты, которые <em>работают</em>, а не просто висят в интернете</h1>
+    <p class="lead hero-fade">Лендинги и сайты для кафе, студий и спортзалов. Под ключ: дизайн, вёрстка, сервер, база данных и выкладка в интернет.</p>
+    <div class="btns hero-fade">
+      <a class="btn btn-accent" href="#contacts">Обсудить проект</a>
+      <a class="btn btn-ghost" href="#works">Мои работы →</a>
+    </div>
+  </div>
+  <div class="scroll-line" aria-hidden="true"><span></span></div>
+</section>
+
+<main id="main">
+  <section id="about" class="sec">
+    <div class="wrap about">
+      <div class="sec-head" data-reveal>
+        <span class="num">01</span>
+        <h2>Обо мне</h2>
+      </div>
+      <div class="about-text">
+        <p class="big" data-reveal>Я студент и делаю сайты на заказ. ВИНЛАНД разработал полностью сам: идея, фронтенд, бэкенд, база, деплой.</p>
+        <p class="muted" data-reveal>Работаю с ИИ-инструментами (Claude Code), это ускоряет разработку. При этом могу объяснить любой кусок своего кода и спокойно его поменять под вашу задачу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="works" class="sec">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="num">02</span>
+        <h2>Работы</h2>
+      </div>
+      <p class="sub" data-reveal>Проекты, которые я сделал. Нажмите на карточку, чтобы прочитать подробнее.</p>
+      <div class="works" id="works-grid"></div>
+    </div>
+  </section>
+
+  <section id="services" class="sec">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="num">03</span>
+        <h2>Услуги</h2>
+      </div>
+      <p class="sub" data-reveal>Точная цена зависит от задачи. Называю её до начала работы.</p>
+      <div class="grid3">
+        <article class="card" data-reveal>
+          <h3>Лендинг</h3>
+          <p>Одна страница: о вас, меню или услуги с ценами, адрес и часы, кнопки «позвонить» и «маршрут», форма заявки.</p>
+          <div class="price">от 7 000 ₽</div>
+        </article>
+        <article class="card" data-reveal>
+          <h3>Сайт из нескольких страниц</h3>
+          <p>Для студии или зала: услуги, расписание, тренеры или мастера, цены, отзывы, запись онлайн.</p>
+          <div class="price">от 15 000 ₽</div>
+        </article>
+        <article class="card" data-reveal>
+          <h3>Веб-приложение</h3>
+          <p>Личный кабинет, база данных, админка. Как в ВИНЛАНДе: вход, свои данные у каждого пользователя, статистика.</p>
+          <div class="price">от 40 000 ₽</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="sec">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="num">04</span>
+        <h2>Как работаю</h2>
+      </div>
+      <p class="sub" data-reveal>Вы видите результат на каждом шаге, а не только в конце.</p>
+      <ol class="steps">
+        <li data-reveal><b>Обсуждаем</b><span>Что нужно сайту делать и для кого он.</span></li>
+        <li data-reveal><b>Макет</b><span>Показываю дизайн до вёрстки, правим.</span></li>
+        <li data-reveal><b>Разработка</b><span>Даю ссылку, где видно, как идёт работа.</span></li>
+        <li data-reveal><b>Запуск</b><span>Выкладываю в интернет и показываю, как менять тексты и цены.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contacts" class="sec contacts-sec">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="num">05</span>
+        <h2 class="huge">Контакты</h2>
+      </div>
+      <p class="sub" data-reveal>Напишите, что за заведение и что хотите от сайта.</p>
+      <div class="contacts" data-reveal>
+        <a class="btn btn-accent btn-lg" href="https://t.me/TotidJ76">Telegram @TotidJ76</a>
+        <a class="btn btn-ghost btn-lg" href="https://kwork.ru/user/melqqnc">Kwork</a>
+        <a class="btn btn-ghost btn-lg" href="https://github.com/Halibubv">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <span>© 2026 <a href="https://github.com/Halibubv">Halibubv</a></span>
+    <a href="#top" class="to-top">Наверх ↑</a>
+  </div>
+</footer>
+
+<div class="cursor" aria-hidden="true"><div class="cursor-ring"></div><div class="cursor-dot"></div></div>
+<div class="grain" aria-hidden="true"></div>
+
+<script src="../works.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

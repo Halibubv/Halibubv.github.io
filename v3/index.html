@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halibubv — сайты на заказ</title>
+<meta name="description" content="Делаю сайты и веб-приложения под ключ: дизайн, вёрстка, сервер, база, выкладка в интернет.">
+<meta property="og:title" content="Halibubv — сайты на заказ">
+<meta property="og:description" content="Сайты и веб-приложения под ключ. Кейс: ВИНЛАНД, дневник тренировок и питания.">
+<meta property="og:image" content="../vinland/screenshots/desktop-nutrition.jpg">
+<meta name="theme-color" content="#f1ede4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23d1371b%22/%3E%3Ctext x=%2216%22 y=%2224%22 font-family=%22Georgia%22 font-style=%22italic%22 font-weight=%22700%22 font-size=%2222%22 text-anchor=%22middle%22 fill=%22%23f1ede4%22%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+  // Анимации включаются, только если GSAP загрузился и пользователь не просил меньше движения.
+  (function () {
+    var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (window.gsap && window.ScrollTrigger && !calm) document.documentElement.classList.add("anim");
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">К содержимому</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand u" href="https://github.com/Halibubv" target="_blank" rel="noopener">Halibubv</a>
+    <nav aria-label="Разделы">
+      <ul>
+        <li><a class="u" href="#about">Обо мне</a></li>
+        <li><a class="u" href="#works">Работы</a></li>
+        <li><a class="u" href="#services">Услуги</a></li>
+        <li><a class="u" href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <span class="status"><i aria-hidden="true"></i>Беру новые заказы</span>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="kicker"><span>Сайты на заказ</span><span>Лендинги · сайты · веб-приложения</span></p>
+      <h1 id="hero-title" class="split">
+        <span class="w"><span>Делаю</span></span>
+        <span class="w"><span>сайты,</span></span>
+        <span class="w"><span>которые</span></span>
+        <span class="w"><em>работают,</em></span>
+        <span class="w"><span>а&nbsp;не&nbsp;просто</span></span>
+        <span class="w"><span>висят</span></span>
+        <span class="w"><span>в&nbsp;интернете</span></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="lead fade">Лендинги и сайты для кафе, студий и спортзалов. Под ключ: дизайн, вёрстка, сервер, база данных и выкладка в интернет.</p>
+        <div class="btns fade">
+          <a class="btn btn-ink" href="#contacts">Обсудить проект</a>
+          <a class="btn btn-line" href="#works">Мои работы →</a>
+        </div>
+      </div>
+    </div>
+    <div class="marquee" aria-label="Лендинги, сайты для кафе, сайты для студий, веб-приложения">
+      <div class="marquee-track" aria-hidden="true">
+        <span>Лендинги ·</span><span>Сайты для кафе ·</span><span>Сайты для студий ·</span><span>Веб-приложения ·</span>
+        <span>Лендинги ·</span><span>Сайты для кафе ·</span><span>Сайты для студий ·</span><span>Веб-приложения ·</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="sec" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">01</span><h2 id="about-title" class="rise">Обо мне</h2></div>
+      <div class="about">
+        <p class="about-big rise">Я студент и делаю сайты на заказ. ВИНЛАНД разработал полностью сам: идея, фронтенд, бэкенд, база, деплой.</p>
+        <p class="about-note rise">Работаю с ИИ-инструментами (Claude Code), это ускоряет разработку. При этом могу объяснить любой кусок своего кода и спокойно его поменять под вашу задачу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="works" class="works" aria-labelledby="works-title">
+    <div class="works-pin">
+      <div class="works-track" id="works-track">
+        <div class="panel panel-intro">
+          <div class="sec-head"><span class="num">02</span><h2 id="works-title">Работы</h2></div>
+          <p class="sub">Проекты, которые я сделал. Нажмите на карточку, чтобы прочитать подробнее.</p>
+          <p class="hint" aria-hidden="true">Листайте вниз →</p>
+        </div>
+        <!-- Работы добавляются из ../works.js -->
+      </div>
+      <div class="works-progress" aria-hidden="true"><span></span></div>
+    </div>
+  </section>
+
+  <section id="services" class="sec" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">03</span><h2 id="services-title" class="rise">Услуги</h2></div>
+      <p class="sub rise">Точная цена зависит от задачи. Называю её до начала работы.</p>
+      <ul class="services">
+        <li class="svc rise">
+          <span class="svc-n">a.</span>
+          <h3>Лендинг</h3>
+          <p>Одна страница: о вас, меню или услуги с ценами, адрес и часы, кнопки «позвонить» и «маршрут», форма заявки.</p>
+          <span class="price">от 7 000 ₽</span>
+        </li>
+        <li class="svc rise">
+          <span class="svc-n">b.</span>
+          <h3>Сайт из нескольких страниц</h3>
+          <p>Для студии или зала: услуги, расписание, тренеры или мастера, цены, отзывы, запись онлайн.</p>
+          <span class="price">от 15 000 ₽</span>
+        </li>
+        <li class="svc rise">
+          <span class="svc-n">c.</span>
+          <h3>Веб-приложение</h3>
+          <p>Личный кабинет, база данных, админка. Как в ВИНЛАНДе: вход, свои данные у каждого пользователя, статистика.</p>
+          <span class="price">от 40 000 ₽</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">04</span><h2 id="process-title" class="rise">Как работаю</h2></div>
+      <p class="sub rise">Вы видите результат на каждом шаге, а не только в конце.</p>
+      <ol class="steps">
+        <li class="rise"><span class="step-n" aria-hidden="true">01</span><b>Обсуждаем</b><span>Что нужно сайту делать и для кого он.</span></li>
+        <li class="rise"><span class="step-n" aria-hidden="true">02</span><b>Макет</b><span>Показываю дизайн до вёрстки, правим.</span></li>
+        <li class="rise"><span class="step-n" aria-hidden="true">03</span><b>Разработка</b><span>Даю ссылку, где видно, как идёт работа.</span></li>
+        <li class="rise"><span class="step-n" aria-hidden="true">04</span><b>Запуск</b><span>Выкладываю в интернет и показываю, как менять тексты и цены.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contacts" class="sec contacts" aria-labelledby="contacts-title">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">05</span><h2 id="contacts-title" class="rise">Контакты</h2></div>
+      <p class="sub rise">Напишите, что за заведение и что хотите от сайта.</p>
+      <ul class="contact-list">
+        <li class="rise"><a href="https://t.me/TotidJ76"><span class="c-name"><span class="u">Telegram</span></span><span class="c-val">@TotidJ76 ↗</span></a></li>
+        <li class="rise"><a href="https://kwork.ru/user/melqqnc"><span class="c-name"><span class="u">Kwork</span></span><span class="c-val">kwork.ru ↗</span></a></li>
+        <li class="rise"><a href="https://github.com/Halibubv"><span class="c-name"><span class="u">GitHub</span></span><span class="c-val">Halibubv ↗</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>© 2026 <a class="u" href="https://github.com/Halibubv">Halibubv</a></span>
+    <a class="u" href="#main">Наверх ↑</a>
+  </div>
+</footer>
+
+<script src="../works.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
