@@ -18,4 +18,12 @@ window.WORKS = [
     image: "oborot/preview.jpg",
     link: "oborot/",
   },
+  {
+    title: "Пенка",
+    kind: "Демо-сайт кофейни",
+    text: "Сайт вымышленной кофейни: меню по разделам, онлайн-бронь столика с выбором дня и времени, часы работы и схема проезда. Плавные анимации на GSAP.",
+    stack: ["HTML", "CSS", "JavaScript", "GSAP"],
+    image: "penka/screenshot.jpg",
+    link: "penka/",
+  },
 ];
