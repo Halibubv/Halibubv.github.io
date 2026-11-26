@@ -52,11 +52,19 @@
   h2 { font: 700 clamp(28px, 4vw, 42px)/1.1 var(--display); margin: 0 0 12px; }
   .sub { color: var(--muted); margin: 0 0 36px; max-width: 640px; }
 
-  .case { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 28px; }
-  .case .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
-  .case h3 { font: 700 26px var(--display); margin: 0 0 10px; }
-  .case p { color: var(--muted); margin: 0 0 16px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .work { min-width: 0; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; text-decoration: none; transition: transform .2s, border-color .2s; }
+  .work:hover { transform: translateY(-3px); border-color: #3a4350; }
+  .work .thumb { aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--border); }
+  .work .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .work .body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+  .work .kind { font-size: 13px; color: var(--accent); margin-bottom: 6px; }
+  .work h3 { font: 700 22px/1.2 var(--display); margin: 0 0 8px; }
+  .work p { color: var(--muted); font-size: 15px; margin: 0 0 16px; flex: 1; }
+  .work .more { font-weight: 600; font-size: 15px; }
+  .work.soon { border-style: dashed; justify-content: center; align-items: center; text-align: center; padding: 40px 24px; min-height: 260px; }
+  .work.soon p { flex: 0; margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; padding: 0; list-style: none; }
   .chips li { font-size: 13px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
 
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -81,8 +89,8 @@
 
   @media (max-width: 860px) {
     nav ul { display: none; }
-    .case, .about { grid-template-columns: 1fr; gap: 24px; }
-    .case { padding: 18px; }
+    .about { grid-template-columns: 1fr; gap: 24px; }
+    .works { grid-template-columns: 1fr; }
     .grid3 { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     section { padding: 60px 0; }
@@ -96,8 +104,8 @@
   <div class="wrap">
     <a class="logo" href="#">Андрей</a>
     <ul>
-      <li><a href="#case">Кейс</a></li>
       <li><a href="#about">Обо мне</a></li>
+      <li><a href="#works">Работы</a></li>
       <li><a href="#services">Услуги</a></li>
       <li><a href="#contacts">Контакты</a></li>
     </ul>
@@ -111,31 +119,12 @@
     <p class="lead">Лендинги и сайты для кафе, студий и спортзалов. Под ключ: дизайн, вёрстка, сервер, база данных и выкладка в интернет.</p>
     <div class="btns">
       <a class="btn btn-accent" href="#contacts">Обсудить проект</a>
-      <a class="btn btn-ghost" href="vinland/">Посмотреть кейс →</a>
+      <a class="btn btn-ghost" href="#works">Мои работы →</a>
     </div>
   </div>
 </header>
 
 <main>
-  <section id="case">
-    <div class="wrap">
-      <h2>Кейс</h2>
-      <p class="sub">Проект, который я сделал от идеи до рабочего приложения.</p>
-      <article class="case">
-        <a class="shot" href="vinland/"><img src="vinland/screenshots/desktop-nutrition.jpg" alt="ВИНЛАНД: дневник питания" width="2880" height="1800" loading="lazy"></a>
-        <div>
-          <h3>ВИНЛАНД</h3>
-          <p>Веб-приложение для силовых тренировок и дневника питания с КБЖУ. Свой дизайн в Figma под компьютер, планшет и телефон, статистика, админка. Курсовая сдана на «отлично».</p>
-          <ul class="chips"><li>React</li><li>PHP 8.4</li><li>MySQL 8</li><li>Figma</li></ul>
-          <div class="btns">
-            <a class="btn btn-accent" href="vinland/">Читать кейс</a>
-            <!-- DEMO --><a class="btn btn-ghost" href="https://github.com/Halibubv/vinland">Код на GitHub</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
   <section id="about">
     <div class="wrap about">
       <div>
@@ -145,6 +134,14 @@
         <p>Я студент и делаю сайты на заказ. ВИНЛАНД разработал полностью сам: идея, фронтенд, бэкенд, база, деплой.</p>
         <p class="muted">Работаю с ИИ-инструментами (Claude Code), это ускоряет разработку. При этом могу объяснить любой кусок своего кода и спокойно его поменять под вашу задачу.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="wrap">
+      <h2>Работы</h2>
+      <p class="sub">Проекты, которые я сделал. Нажмите на карточку, чтобы прочитать подробнее.</p>
+      <div class="works" id="works-grid"></div>
     </div>
   </section>
 
@@ -202,5 +199,26 @@
   <div class="wrap">© 2026 Андрей</div>
 </footer>
 
+<script src="works.js"></script>
+<script>
+  (function () {
+    var grid = document.getElementById("works-grid");
+    var esc = function (t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; };
+    (window.WORKS || []).forEach(function (w) {
+      var a = document.createElement("a");
+      a.className = "work"; a.href = w.link;
+      a.innerHTML =
+        '<div class="thumb"><img src="' + esc(w.image) + '" alt="' + esc(w.title) + '" loading="lazy"></div>' +
+        '<div class="body"><div class="kind">' + esc(w.kind) + '</div><h3>' + esc(w.title) + '</h3><p>' + esc(w.text) + '</p>' +
+        '<ul class="chips">' + w.stack.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + '</ul>' +
+        '<span class="more">Подробнее →</span></div>';
+      grid.appendChild(a);
+    });
+    var soon = document.createElement("div");
+    soon.className = "work soon";
+    soon.innerHTML = '<h3>Здесь может быть ваш сайт</h3><p>Беру новые заказы. <a href="#contacts">Написать мне</a></p>';
+    grid.appendChild(soon);
+  })();
+</script>
 </body>
 </html>
