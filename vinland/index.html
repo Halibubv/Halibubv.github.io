@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ВИНЛАНД — кейс</title>
+<meta name="description" content="Кейс: веб-приложение для учёта силовых тренировок и дневника питания с КБЖУ. Задача, решение, скриншоты.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1a21;
+    --surface: #15232b;
+    --border: #2c3d47;
+    --cream: #f6efdf;
+    --text: #e6e1d6;
+    --muted: #afbbc4;
+    --gold: #d9b56c;
+    --serif: "Cormorant SC", Georgia, serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--cream); }
+  .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+  /* hero */
+  .hero { background: radial-gradient(ellipse 80% 60% at 70% 0%, rgba(217,181,108,.10), transparent 70%); }
+  .hero .wrap { padding: clamp(56px, 10vw, 120px) 0 72px; }
+  .hero-shot { margin-top: 56px; }
+  .eyebrow { font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  h1 { font: 700 clamp(48px, 9vw, 112px)/.95 var(--serif); color: var(--cream); margin: 0 0 18px; letter-spacing: .02em; }
+  .lead { font-size: clamp(18px, 2.2vw, 22px); max-width: 640px; color: var(--text); margin: 0 0 28px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; list-style: none; }
+  .meta li { border: 1px solid var(--border); background: rgba(21,35,43,.7); backdrop-filter: blur(6px); border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--muted); }
+  .meta b { color: var(--cream); font-weight: 600; }
+
+  section { padding: 72px 0; border-top: 1px solid var(--border); }
+  h2 { font: 700 clamp(32px, 4.5vw, 48px)/1.05 var(--serif); color: var(--cream); margin: 0 0 24px; }
+  h3 { font: 600 18px/1.3 var(--sans); color: var(--cream); margin: 0 0 8px; }
+  p { margin: 0 0 14px; }
+  .muted { color: var(--muted); }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  ul.list { margin: 0; padding-left: 20px; }
+  ul.list li { margin-bottom: 8px; }
+  ul.list li::marker { color: var(--gold); }
+
+  figure { margin: 0; }
+  .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 10px; }
+  .gallery { display: grid; gap: 40px; }
+  .gallery .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin-inline: auto; }
+  .phones .shot { border-radius: 28px; }
+
+  .stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stack .card b { display: block; color: var(--cream); font-size: 15px; margin-bottom: 4px; }
+
+  .result { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .num { font: 700 44px/1 var(--serif); color: var(--cream); margin-bottom: 6px; }
+
+  .links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 15px; }
+  .btn-primary { background: var(--cream); color: var(--bg); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--cream); }
+  .btn:hover { filter: brightness(1.08); }
+  footer { padding: 36px 0 48px; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .two, .gallery .row { grid-template-columns: 1fr; gap: 24px; }
+    .cards, .stack { grid-template-columns: 1fr; }
+    .result { grid-template-columns: 1fr 1fr; }
+    .phones { grid-template-columns: 1fr 1fr; }
+    .phones figure:last-child { display: none; }
+    section { padding: 56px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p><a href="../" style="color:var(--muted);text-decoration:none;font-size:15px">← Портфолио</a></p>
+    <p class="eyebrow">Кейс · веб-приложение</p>
+    <h1>Винланд</h1>
+    <p class="lead">Дневник силовых тренировок и питания с подсчётом КБЖУ: от ТЗ и макетов в Figma до рабочего приложения с базой данных и админкой.</p>
+    <ul class="meta">
+      <li><b>Роль:</b> всё сам, от идеи до деплоя</li>
+      <li><b>Тип:</b> курсовой проект</li>
+      <li><b>Сроки:</b> сентябрь — ноябрь 2026</li>
+      <li><b>Стек:</b> React, PHP, MySQL</li>
+      <li><b>Экраны:</b> компьютер, планшет, телефон</li>
+    </ul>
+    <figure class="hero-shot">
+      <div class="shot"><img src="screenshots/desktop-landing.jpg" alt="Главный экран ВИНЛАНД: атлет со штангой на фоне фьорда" width="2880" height="1800"></div>
+      <figcaption>Главная страница для гостя.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap two">
+      <div>
+        <h2>Задача</h2>
+        <p>Сделать веб-приложение для тех, кто занимается силовыми тренировками и считает калории: записать тренировку с подходами и весом, вести дневник питания по граммовкам и видеть, как ты идёшь к своим целям.</p>
+        <p class="muted">Курсовая работа, поэтому нужен полный цикл: техническое задание, схема базы, собственный дизайн и работающий код, а не только макет.</p>
+      </div>
+      <div>
+        <h3>Требования</h3>
+        <ul class="list">
+          <li>Тренировки: упражнения из справочника, подходы, повторения, вес.</li>
+          <li>Питание: приёмы пищи, продукты с КБЖУ на 100 г, расчёт по граммам.</li>
+          <li>Личные цели и статистика за период.</li>
+          <li>Админка для справочников упражнений и продуктов.</li>
+          <li>Удобно и на компьютере, и на телефоне.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Решение</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Свой дизайн</h3>
+          <p>Лендинг, страницы для компьютера, мобильные экраны, админка и UI-kit сделаны в Figma. Каждый экран свёрстан по трём макетам: 1280, 834 и 390 px.</p>
+        </div>
+        <div class="card">
+          <h3>Быстрый ввод</h3>
+          <p>Подходы правятся кнопками «−/+», КБЖУ считается сам по граммам, история питания открывается на последнем дне с записями.</p>
+        </div>
+        <div class="card">
+          <h3>Честная история</h3>
+          <p>В дневнике хранится снимок продукта на момент записи. Если админ поменяет калорийность или отключит продукт, прошлые дни не изменятся.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap gallery">
+      <h2>Экраны</h2>
+      <figure>
+        <div class="shot"><img src="screenshots/desktop-nutrition.jpg" alt="Дневник питания: итог дня, кольцо калорий, приёмы пищи" width="2880" height="1800" loading="lazy"></div>
+        <figcaption>Дневник питания: калории и БЖУ за день против личной цели, приёмы пищи карточками.</figcaption>
+      </figure>
+      <div class="row">
+        <figure>
+          <div class="shot"><img src="screenshots/desktop-statistics.jpg" alt="Статистика за 7 дней" width="2880" height="1800" loading="lazy"></div>
+          <figcaption>Статистика за 7, 14 или 30 дней: график калорий с линией цели и дни тренировок.</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="screenshots/desktop-workout-editor.jpg" alt="Редактор тренировки" width="2880" height="1800" loading="lazy"></div>
+          <figcaption>Редактор тренировки: порядок упражнений, подходы, заметки.</figcaption>
+        </figure>
+      </div>
+      <div class="row">
+        <figure>
+          <div class="shot"><img src="screenshots/desktop-profile.jpg" alt="Личный кабинет" width="2880" height="1800" loading="lazy"></div>
+          <figcaption>Личный кабинет: фото профиля и цели по КБЖУ.</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="screenshots/desktop-admin-products.jpg" alt="Админка: справочник продуктов" width="2880" height="1800" loading="lazy"></div>
+          <figcaption>Админка: справочники продуктов и упражнений. Запись можно отключить, не ломая старые дневники.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>На телефоне</h2>
+      <p class="muted" style="max-width:640px;margin-bottom:32px">Отдельная мобильная вёрстка с нижней навигацией, а не уменьшенная версия десктопа.</p>
+      <div class="phones">
+        <figure><div class="shot"><img src="screenshots/phone-nutrition.jpg" alt="Дневник питания на телефоне" width="1170" height="2532" loading="lazy"></div></figure>
+        <figure><div class="shot"><img src="screenshots/phone-workout-editor.jpg" alt="Редактор тренировки на телефоне" width="1170" height="2532" loading="lazy"></div></figure>
+        <figure><div class="shot"><img src="screenshots/phone-statistics.jpg" alt="Статистика на телефоне" width="1170" height="2532" loading="lazy"></div></figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Как сделано</h2>
+      <div class="stack">
+        <div class="card"><b>Интерфейс</b><p>React 19, React Router, Vite. Без UI-библиотек: вся вёрстка своя, по макетам.</p></div>
+        <div class="card"><b>Сервер</b><p>PHP 8.4 без фреймворка, PDO. Один сервер отдаёт и API, и собранный интерфейс.</p></div>
+        <div class="card"><b>База</b><p>MySQL 8: внешние ключи, CHECK-ограничения и транзакции держат данные целостными.</p></div>
+      </div>
+      <div class="two" style="margin-top:32px">
+        <div>
+          <h3>Безопасность</h3>
+          <ul class="list">
+            <li>Пароли в bcrypt, сессия в HttpOnly-cookie с SameSite.</li>
+            <li>Только подготовленные SQL-запросы.</li>
+            <li>Роль админа нельзя получить из браузера.</li>
+            <li>Каждый запрос проверяет, чья это запись.</li>
+            <li>Лимит попыток входа.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Процесс</h3>
+          <ul class="list">
+            <li>Техническое задание и схема базы.</li>
+            <li>Референсы и макеты в Figma, UI-kit.</li>
+            <li>Вёрстка экранов под три ширины.</li>
+            <li>API, миграции, демо-данные.</li>
+            <li>Инструкция для бесплатного демо на Render + Aiven.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Результат</h2>
+      <div class="result">
+        <div class="card"><div class="num">5</div><p>оценка за курсовую</p></div>
+        <div class="card"><div class="num">3</div><p>макета на каждый экран</p></div>
+        <div class="card"><div class="num">9</div><p>таблиц в базе</p></div>
+        <div class="card"><div class="num">0</div><p>UI-библиотек</p></div>
+      </div>
+      <p style="max-width:720px">Рабочее приложение: регистрация, тренировки, дневник питания, цели, статистика и админка. Код открыт на GitHub.</p>
+      <p style="max-width:720px" class="muted">Разработал полностью сам: идея, фронтенд, бэкенд, база, деплой. Работаю с ИИ-инструментами (Claude Code), это ускоряет разработку.</p>
+      <div class="links">
+        <a class="btn btn-primary" href="https://github.com/Halibubv/vinland">Код на GitHub →</a>
+        <!-- TODO: ссылка на живое демо, когда будет развёрнуто -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Данные на скриншотах демонстрационные. Скриншоты сняты с запущенного приложения.</div>
+</footer>
+
+</body>
+</html>

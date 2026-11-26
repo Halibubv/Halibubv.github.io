@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Андрей — сайты на заказ</title>
+<meta name="description" content="Делаю сайты и веб-приложения под ключ: дизайн, вёрстка, сервер, база, выкладка в интернет.">
+<meta property="og:title" content="Андрей — сайты на заказ">
+<meta property="og:description" content="Сайты и веб-приложения под ключ. Кейс: ВИНЛАНД, дневник тренировок и питания.">
+<meta property="og:image" content="vinland/screenshots/desktop-nutrition.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1116;
+    --surface: #161b22;
+    --border: #2a313b;
+    --text: #e8e6e1;
+    --muted: #9aa4b0;
+    --accent: #f2c14e;
+    --accent-ink: #1a1405;
+    --display: Unbounded, system-ui, sans-serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  .wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(14,17,22,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+  .logo { font: 700 16px var(--display); text-decoration: none; }
+  nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover { color: var(--text); }
+
+  .hero { padding: clamp(64px, 12vw, 140px) 0 80px; }
+  .tag { display: inline-block; font-size: 13px; color: var(--accent); border: 1px solid rgba(242,193,78,.35); border-radius: 999px; padding: 4px 12px; margin-bottom: 22px; }
+  h1 { font: 700 clamp(36px, 6.4vw, 76px)/1.05 var(--display); margin: 0 0 22px; letter-spacing: -.01em; max-width: 900px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lead { font-size: clamp(18px, 2vw, 21px); color: var(--muted); max-width: 620px; margin: 0 0 32px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 12px; font-weight: 600; font-size: 15px; text-decoration: none; }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { border: 1px solid var(--border); }
+  .btn:hover { filter: brightness(1.08); }
+
+  section { padding: 80px 0; border-top: 1px solid var(--border); }
+  h2 { font: 700 clamp(28px, 4vw, 42px)/1.1 var(--display); margin: 0 0 12px; }
+  .sub { color: var(--muted); margin: 0 0 36px; max-width: 640px; }
+
+  .case { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 28px; }
+  .case .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+  .case h3 { font: 700 26px var(--display); margin: 0 0 10px; }
+  .case p { color: var(--muted); margin: 0 0 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .chips li { font-size: 13px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
+
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .about p { margin: 0 0 14px; }
+  .about .muted { color: var(--muted); }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { min-width: 0; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
+  .card h3 { font: 600 19px/1.3 var(--sans); margin: 0 0 8px; }
+  .card p { color: var(--muted); font-size: 15px; margin: 0 0 20px; flex: 1; }
+  .price { font: 700 24px var(--display); color: var(--accent); }
+  .price small { font: 500 14px var(--sans); color: var(--muted); }
+
+  .steps { counter-reset: s; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; list-style: none; padding: 0; margin: 0; }
+  .steps li { counter-increment: s; border-top: 2px solid var(--border); padding-top: 16px; }
+  .steps li::before { content: "0" counter(s); display: block; font: 700 14px var(--display); color: var(--accent); margin-bottom: 8px; }
+  .steps b { display: block; margin-bottom: 4px; }
+  .steps span { color: var(--muted); font-size: 15px; }
+
+  .contacts { display: flex; flex-wrap: wrap; gap: 12px; }
+  footer { padding: 32px 0 48px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 860px) {
+    nav ul { display: none; }
+    .case, .about { grid-template-columns: 1fr; gap: 24px; }
+    .case { padding: 18px; }
+    .grid3 { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    section { padding: 60px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">Андрей</a>
+    <ul>
+      <li><a href="#case">Кейс</a></li>
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#services">Услуги</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Беру новые заказы</span>
+    <h1>Делаю сайты, которые <em>работают</em>, а не просто висят в интернете</h1>
+    <p class="lead">Лендинги и сайты для кафе, студий и спортзалов. Под ключ: дизайн, вёрстка, сервер, база данных и выкладка в интернет.</p>
+    <div class="btns">
+      <a class="btn btn-accent" href="#contacts">Обсудить проект</a>
+      <a class="btn btn-ghost" href="vinland/">Посмотреть кейс →</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="case">
+    <div class="wrap">
+      <h2>Кейс</h2>
+      <p class="sub">Проект, который я сделал от идеи до рабочего приложения.</p>
+      <article class="case">
+        <a class="shot" href="vinland/"><img src="vinland/screenshots/desktop-nutrition.jpg" alt="ВИНЛАНД: дневник питания" width="2880" height="1800" loading="lazy"></a>
+        <div>
+          <h3>ВИНЛАНД</h3>
+          <p>Веб-приложение для силовых тренировок и дневника питания с КБЖУ. Свой дизайн в Figma под компьютер, планшет и телефон, статистика, админка. Курсовая сдана на «отлично».</p>
+          <ul class="chips"><li>React</li><li>PHP 8.4</li><li>MySQL 8</li><li>Figma</li></ul>
+          <div class="btns">
+            <a class="btn btn-accent" href="vinland/">Читать кейс</a>
+            <!-- DEMO --><a class="btn btn-ghost" href="https://github.com/Halibubv/vinland">Код на GitHub</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>Обо мне</h2>
+      </div>
+      <div>
+        <p>Я студент и делаю сайты на заказ. ВИНЛАНД разработал полностью сам: идея, фронтенд, бэкенд, база, деплой.</p>
+        <p class="muted">Работаю с ИИ-инструментами (Claude Code), это ускоряет разработку. При этом могу объяснить любой кусок своего кода и спокойно его поменять под вашу задачу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <h2>Услуги</h2>
+      <p class="sub">Точная цена зависит от задачи. Называю её до начала работы.</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>Лендинг</h3>
+          <p>Одна страница: о вас, меню или услуги с ценами, адрес и часы, кнопки «позвонить» и «маршрут», форма заявки.</p>
+          <div class="price">от 7 000 ₽</div>
+        </div>
+        <div class="card">
+          <h3>Сайт из нескольких страниц</h3>
+          <p>Для студии или зала: услуги, расписание, тренеры или мастера, цены, отзывы, запись онлайн.</p>
+          <div class="price">от 15 000 ₽</div>
+        </div>
+        <div class="card">
+          <h3>Веб-приложение</h3>
+          <p>Личный кабинет, база данных, админка. Как в ВИНЛАНДе: вход, свои данные у каждого пользователя, статистика.</p>
+          <div class="price">от 40 000 ₽</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Как работаю</h2>
+      <p class="sub">Вы видите результат на каждом шаге, а не только в конце.</p>
+      <ol class="steps">
+        <li><b>Обсуждаем</b><span>Что нужно сайту делать и для кого он.</span></li>
+        <li><b>Макет</b><span>Показываю дизайн до вёрстки, правим.</span></li>
+        <li><b>Разработка</b><span>Даю ссылку, где видно, как идёт работа.</span></li>
+        <li><b>Запуск</b><span>Выкладываю в интернет и показываю, как менять тексты и цены.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="wrap">
+      <h2>Контакты</h2>
+      <p class="sub">Напишите, что за заведение и что хотите от сайта.</p>
+      <div class="contacts">
+        <a class="btn btn-accent" href="https://t.me/TotidJ76">Telegram @TotidJ76</a>
+        <a class="btn btn-ghost" href="https://kwork.ru/user/melqqnc">Kwork</a>
+        <a class="btn btn-ghost" href="https://github.com/Halibubv">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Андрей</div>
+</footer>
+
+</body>
+</html>
