@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОБОРОТ — автосервис и детейлинг (демо)</title>
+<meta name="description" content="Демо-сайт вымышленного автосервиса: калькулятор цены под марку и кузов, онлайн-запись, до и после.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#eceae4;
+  --paper-2:#e2dfd7;
+  --card:#f7f6f2;
+  --ink:#121212;
+  --ink-2:#3b3b3b;
+  --muted:#6d6a63;
+  --line:#cfcbc1;
+  --red:#ff3b0a;
+  --red-ink:#fff;
+  --dark:#141414;
+  --dark-2:#1e1e1e;
+  --dark-line:#2e2e2e;
+  --display:Oswald, "Arial Narrow", Impact, sans-serif;
+  --sans:Manrope, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --r:4px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.mono{font-family:var(--mono)}
+::selection{background:var(--red);color:#fff}
+
+/* demo bar */
+.demo-bar{background:var(--ink);color:#d9d6cf;font:500 12px/1.4 var(--mono);text-align:center;padding:8px 16px;letter-spacing:.02em}
+.demo-bar b{color:var(--red);font-weight:700}
+
+/* progress */
+.rev{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#ffb199,var(--red));z-index:60}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(236,234,228,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 24px/1 var(--display);letter-spacing:.04em}
+.logo i{display:block;width:26px;height:26px;border-radius:50%;border:3px solid var(--ink);position:relative}
+.logo i::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:10px;background:var(--red);transform-origin:50% 100%;transform:translate(-50%,-100%) rotate(50deg);border-radius:2px}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em}
+nav ul a{text-decoration:none;position:relative}
+nav ul a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%;transition:transform .3s}
+nav ul a:hover::after{transform:scaleX(1)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:var(--r);padding:15px 24px;font:600 15px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-red{background:var(--red);color:var(--red-ink)}
+.btn-red::before{content:"";position:absolute;inset:0;background:var(--ink);transform:translateX(-101%);transition:transform .35s cubic-bezier(.7,0,.2,1);z-index:-1}
+.btn-red:hover::before{transform:none}
+.btn-line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--paper)}
+.btn .arr{transition:transform .3s}
+.btn:hover .arr{transform:translateX(4px)}
+.nav-cta{padding:12px 18px;font-size:13px}
+
+/* hero */
+.hero{position:relative;padding:clamp(40px,7vw,90px) 0 clamp(40px,6vw,70px);overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;opacity:.45;mask-image:radial-gradient(ellipse 80% 70% at 70% 40%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 40%,#000 30%,transparent 75%);pointer-events:none}
+.stripe{position:absolute;right:-10%;top:-20%;width:34%;height:150%;background:repeating-linear-gradient(90deg,var(--red) 0 38px,transparent 38px 54px,var(--ink) 54px 62px,transparent 62px 120px);transform:rotate(18deg);opacity:.08;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:500 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--ink-2);margin-bottom:22px}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,59,10,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(255,59,10,0)}100%{box-shadow:0 0 0 0 rgba(255,59,10,0)}}
+h1{font:700 clamp(54px,9.6vw,138px)/.88 var(--display);text-transform:uppercase;margin:0 0 26px;letter-spacing:-.01em}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
+h1 .ln span{display:inline-block;transform:translateY(110%);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
+h1 .ln:nth-child(2) span{animation-delay:.12s}
+h1 .ln:nth-child(3) span{animation-delay:.24s}
+h1 .red{color:var(--red)}
+h1 .out{color:transparent;-webkit-text-stroke:2px var(--ink)}
+@keyframes up{to{transform:none}}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--ink-2);max-width:540px;margin:0 0 30px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.fade{opacity:0;transform:translateY(14px);animation:fadein .8s .45s cubic-bezier(.2,.8,.2,1) forwards}
+.fade.d2{animation-delay:.6s}
+@keyframes fadein{to{opacity:1;transform:none}}
+
+/* tachometer */
+.tacho{position:relative;aspect-ratio:1;max-width:440px;width:100%;justify-self:center}
+.tacho svg{width:100%;height:100%;overflow:visible}
+.tacho .readout{position:absolute;left:0;right:0;top:58%;text-align:center}
+.tacho .rpm{font:700 clamp(34px,4vw,48px)/1 var(--mono);letter-spacing:-.02em}
+.tacho .unit{font:500 11px/1 var(--mono);color:var(--muted);letter-spacing:.2em;margin-top:6px}
+.tacho .hint{position:absolute;left:0;right:0;bottom:4%;text-align:center;font:500 11px/1 var(--mono);color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+#needle{transform-origin:200px 200px;transition:transform .12s linear}
+.tick-red{stroke:var(--red)}
+
+/* marquee */
+.marquee{background:var(--ink);color:var(--paper);overflow:hidden;border-block:1px solid var(--ink);transform:rotate(-1.2deg);margin:10px -10px 0;position:relative;z-index:2}
+.marquee .track{display:flex;width:max-content;animation:run 28s linear infinite}
+.marquee span{font:600 clamp(20px,2.4vw,30px)/1 var(--display);text-transform:uppercase;letter-spacing:.04em;padding:16px 0;white-space:nowrap}
+.marquee span::after{content:"✦";color:var(--red);margin:0 28px;font-size:.7em;vertical-align:.15em}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:clamp(70px,9vw,120px) 0}
+.sec-head{display:grid;grid-template-columns:auto 1fr;gap:12px 28px;align-items:end;margin-bottom:46px}
+.sec-num{font:500 13px/1 var(--mono);color:var(--red);letter-spacing:.1em;grid-row:span 2;align-self:start;padding-top:12px}
+h2{font:700 clamp(40px,6vw,78px)/.92 var(--display);text-transform:uppercase;margin:0;letter-spacing:-.005em}
+.sec-sub{color:var(--ink-2);margin:0;max-width:620px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line)}
+.svc{position:relative;padding:28px 24px 26px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper);min-height:250px;display:flex;flex-direction:column;overflow:hidden;transition:background .3s}
+.svc::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.svc:hover{background:var(--card)}
+.svc:hover::before{transform:none}
+.svc .n{font:500 12px/1 var(--mono);color:var(--muted)}
+.svc svg{width:44px;height:44px;margin:22px 0 18px;stroke:var(--ink);fill:none;stroke-width:1.6;transition:transform .4s cubic-bezier(.2,.8,.2,1),stroke .3s}
+.svc:hover svg{transform:translateX(6px);stroke:var(--red)}
+.svc h3{font:600 23px/1.05 var(--display);text-transform:uppercase;margin:0 0 8px}
+.svc p{margin:0 0 18px;color:var(--ink-2);font-size:14.5px}
+.svc .price{margin-top:auto;font:700 15px/1 var(--mono)}
+.svc .price small{font-weight:500;color:var(--muted)}
+
+/* calculator (dark) */
+.dark{background:var(--dark);color:#ecebe7}
+.dark .sec-sub{color:#a9a69f}
+.dark h2 .out{color:transparent;-webkit-text-stroke:2px #ecebe7}
+.calc{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+.step{border-top:1px solid var(--dark-line);padding:26px 0 30px}
+.step-t{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.step-t .mono{color:var(--red);font-size:12px;letter-spacing:.1em}
+.step-t h3{font:600 22px/1 var(--display);text-transform:uppercase;margin:0;letter-spacing:.02em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:transparent;border:1px solid #3a3a3a;border-radius:999px;padding:10px 16px;font-weight:600;font-size:14px;color:#dcdad4;transition:background .2s,border-color .2s,color .2s,transform .15s}
+.chip:hover{border-color:#777}
+.chip:active{transform:scale(.96)}
+.chip[aria-pressed="true"]{background:#ecebe7;color:var(--ink);border-color:#ecebe7}
+.bodies{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.body-btn{background:var(--dark-2);border:1px solid var(--dark-line);border-radius:var(--r);padding:16px 14px 14px;text-align:left;transition:border-color .2s,background .2s}
+.body-btn svg{width:100%;height:52px;display:block;margin-bottom:10px;fill:none;stroke:#8d8a84;stroke-width:2;transition:stroke .2s}
+.body-btn b{display:block;font:600 15px/1.2 var(--sans)}
+.body-btn small{font:500 12px/1 var(--mono);color:#8d8a84}
+.body-btn:hover{border-color:#555}
+.body-btn[aria-pressed="true"]{border-color:var(--red);background:#231511}
+.body-btn[aria-pressed="true"] svg{stroke:var(--red)}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.opt{display:flex;align-items:center;gap:14px;background:var(--dark-2);border:1px solid var(--dark-line);border-radius:var(--r);padding:14px 16px;text-align:left;transition:border-color .2s,background .2s}
+.opt .box{flex:0 0 22px;height:22px;border:2px solid #555;border-radius:3px;position:relative;transition:background .2s,border-color .2s}
+.opt .box::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.opt[aria-pressed="true"]{border-color:#5a2a1c;background:#231511}
+.opt[aria-pressed="true"] .box{background:var(--red);border-color:var(--red)}
+.opt[aria-pressed="true"] .box::after{transform:rotate(45deg) scale(1)}
+.opt .txt{flex:1;min-width:0}
+.opt b{display:block;font-weight:600;font-size:15px}
+.opt small{color:#8d8a84;font-size:12.5px}
+.opt .p{font:700 13px/1 var(--mono);color:#cfccc5;white-space:nowrap}
+
+.receipt{position:sticky;top:86px;background:var(--paper);color:var(--ink);border-radius:var(--r);padding:26px 24px 24px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:radial-gradient(circle at 8px 0,var(--paper) 7px,transparent 7.5px) 0 0/16px 10px repeat-x}
+.receipt h4{font:600 13px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;margin:0 0 4px}
+.receipt .car{font:600 24px/1.1 var(--display);text-transform:uppercase;margin:0 0 18px}
+.lines{list-style:none;margin:0;padding:14px 0;border-block:1px dashed #b8b3a7;min-height:64px}
+.lines li{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:5px 0;animation:li .35s cubic-bezier(.2,.8,.2,1)}
+.lines li span:last-child{font-family:var(--mono);font-weight:700;white-space:nowrap}
+.lines .empty{color:var(--muted);justify-content:flex-start}
+@keyframes li{from{opacity:0;transform:translateX(-10px)}}
+.mods{font:500 12px/1.5 var(--mono);color:var(--muted);padding-top:10px;min-height:20px}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 4px}
+.total span{font:600 13px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em}
+.total b{font:700 38px/1 var(--mono);letter-spacing:-.03em}
+.dur{font:500 13px/1 var(--mono);color:var(--muted);text-align:right;margin-bottom:20px}
+.receipt .btn{width:100%}
+.receipt .note{font-size:12px;color:var(--muted);margin:12px 0 0;text-align:center}
+
+/* before / after */
+.ba-wrap{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:stretch}
+.ba{position:relative;border-radius:var(--r);overflow:hidden;background:#1b1b1b;aspect-ratio:16/9;user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:ew-resize}
+.ba .layer{position:absolute;inset:0}
+.ba .layer svg{width:100%;height:100%;display:block}
+.ba .after{clip-path:inset(0 0 0 var(--pos,50%))}
+.ba .handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:50%;width:54px;height:54px;border-radius:50%;background:var(--red);transform:translate(-50%,-50%);display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.ba .knob svg{width:26px;height:26px}
+.ba .tag{position:absolute;top:16px;font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:2px;pointer-events:none}
+.ba .tag.l{left:16px;background:rgba(0,0,0,.55);color:#ddd}
+.ba .tag.r{right:16px;background:var(--red);color:#fff}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.ba-side{display:flex;flex-direction:column;gap:12px}
+.ba-tab{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:left;transition:border-color .2s,background .2s}
+.ba-tab b{display:block;font:600 20px/1.1 var(--display);text-transform:uppercase;margin-bottom:4px}
+.ba-tab span{font-size:14px;color:var(--ink-2)}
+.ba-tab[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.ba-tab[aria-pressed="true"] span{color:#bdb9b0}
+.ba-cap{font:500 12px/1.5 var(--mono);color:var(--muted);margin-top:auto}
+.sparkle{animation:tw 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+
+/* process */
+.proc{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:20px;padding-top:34px}
+.proc::before,.proc .bar{content:"";position:absolute;left:0;top:7px;height:2px;width:100%;background:var(--line)}
+.proc .bar{background:var(--red);transform-origin:0 50%;transform:scaleX(var(--p,0));transition:transform .15s linear}
+.ps{position:relative}
+.ps::before{content:"";position:absolute;top:-34px;left:0;width:16px;height:16px;border-radius:50%;background:var(--paper);border:2px solid var(--line);transition:border-color .3s,background .3s}
+.ps.on::before{border-color:var(--red);background:var(--red)}
+.ps .mono{font-size:12px;color:var(--muted)}
+.ps h3{font:600 22px/1.05 var(--display);text-transform:uppercase;margin:8px 0}
+.ps p{margin:0;color:var(--ink-2);font-size:14.5px}
+
+/* booking */
+.book{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,32px)}
+.lbl{display:block;font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;margin:0 0 12px;color:var(--ink-2)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:24px;scrollbar-width:thin;scroll-snap-type:x mandatory}
+.day{flex:0 0 66px;scroll-snap-align:start;border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:10px 0;text-align:center;transition:background .2s,border-color .2s,color .2s}
+.day small{display:block;font:500 11px/1 var(--mono);text-transform:uppercase;color:var(--muted)}
+.day b{display:block;font:700 24px/1.1 var(--display);margin-top:4px}
+.day:hover{border-color:var(--ink)}
+.day[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.day[aria-pressed="true"] small{color:#aaa}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;margin-bottom:26px}
+.slot{border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:11px 0;font:700 14px/1 var(--mono);transition:background .2s,border-color .2s,color .2s}
+.slot:hover:not(:disabled){border-color:var(--ink)}
+.slot:disabled{opacity:.38;text-decoration:line-through;cursor:not-allowed}
+.slot[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field{position:relative}
+.field input,.field textarea{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:22px 14px 8px;font:500 16px/1.3 var(--sans);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:84px}
+.field label{position:absolute;left:15px;top:16px;font-size:15px;color:var(--muted);pointer-events:none;transition:transform .2s,font-size .2s,color .2s;transform-origin:0 0}
+.field input:focus,.field textarea:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(18,18,18,.08)}
+.field input:focus+label,.field input:not(:placeholder-shown)+label,.field textarea:focus+label,.field textarea:not(:placeholder-shown)+label{transform:translateY(-9px);font-size:11.5px;color:var(--ink-2)}
+.field.bad input{border-color:var(--red)}
+.err{color:var(--red);font-size:13px;min-height:18px;margin:4px 0 10px}
+.sum{position:sticky;top:86px}
+.sum h3{font:600 26px/1 var(--display);text-transform:uppercase;margin:0 0 18px}
+.sum dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:14.5px}
+.sum dt{font:500 12px/1.6 var(--mono);color:var(--muted);text-transform:uppercase}
+.sum dd{margin:0;font-weight:600;text-align:right}
+.sum .tot{border-top:2px solid var(--ink);margin-top:18px;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline}
+.sum .tot b{font:700 30px/1 var(--mono)}
+.sum a{font-size:13px;color:var(--muted)}
+.done{display:none;text-align:center;padding:30px 10px}
+.done.show{display:block;animation:fadein .6s cubic-bezier(.2,.8,.2,1)}
+.done svg{width:84px;height:84px}
+.done .ring{stroke-dasharray:252;stroke-dashoffset:252;animation:draw .7s .1s ease-out forwards}
+.done .tick{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .4s .65s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done h3{font:700 34px/1 var(--display);text-transform:uppercase;margin:18px 0 10px}
+.done p{color:var(--ink-2);max-width:420px;margin:0 auto 18px}
+
+/* faq */
+.faq{border-top:2px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font:600 clamp(19px,2vw,24px)/1.2 var(--display);text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid var(--ink);position:relative;transition:transform .35s,background .3s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:var(--ink);transform:translate(-50%,-50%)}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .35s}
+.faq details[open] summary i{background:var(--red);border-color:var(--red);transform:rotate(180deg)}
+.faq details[open] summary i::before,.faq details[open] summary i::after{background:#fff}
+.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .a{overflow:hidden;height:0;transition:height .35s cubic-bezier(.2,.8,.2,1)}
+.faq .a p{margin:0;padding:0 0 22px;color:var(--ink-2);max-width:760px}
+
+/* footer */
+footer{background:var(--ink);color:#cfccc5;padding:70px 0 30px}
+.f-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;padding-bottom:40px;border-bottom:1px solid #2c2c2c}
+.f-big{font:700 clamp(46px,8vw,110px)/.88 var(--display);text-transform:uppercase;color:var(--paper);margin:0}
+.f-big span{color:var(--red)}
+footer h4{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:#8a877f;margin:6px 0 14px}
+footer p{margin:0 0 8px}
+.f-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font:500 12.5px/1.5 var(--mono);color:#8a877f}
+.f-bot a{color:var(--paper)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,calc(100% + 30px));visibility:hidden;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:var(--r);font-size:14px;z-index:70;transition:transform .4s cubic-bezier(.2,.8,.2,1);max-width:calc(100% - 32px)}
+.toast.show{transform:translate(-50%,0);visibility:visible}
+
+/* spotlight cards */
+.svc::after{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,59,10,.13),transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none}
+.svc:hover::after{opacity:1}
+/* shader bg */
+.dark{position:relative;overflow:hidden}
+.dark>.wrap{position:relative;z-index:1}
+#shader{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none}
+/* border beam on CTA */
+.beam::after{content:"";position:absolute;inset:0;border-radius:var(--r);padding:2px;background:conic-gradient(from var(--a,0deg),transparent 0 70%,#fff 80%,transparent 90%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:beam 3s linear infinite;pointer-events:none}
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes beam{to{--a:360deg}}
+.ba-stage{will-change:transform;transform-origin:50% 0}
+
+/* responsive */
+@media (max-width:1000px){
+  .services{grid-template-columns:repeat(2,1fr)}
+  .calc,.ba-wrap,.book{grid-template-columns:1fr}
+  .receipt,.sum{position:static}
+  .ba-side{flex-direction:row;flex-wrap:wrap}
+  .ba-tab{flex:1 1 200px}
+  .proc{grid-template-columns:1fr;gap:26px;padding:0 0 0 34px}
+  .proc::before,.proc .bar{left:7px;top:0;width:2px;height:100%}
+  .proc .bar{transform:scaleY(var(--p,0));transform-origin:50% 0}
+  .ps::before{top:4px;left:-34px}
+}
+@media (max-width:820px){
+  nav ul{display:none}
+  .hero .wrap{grid-template-columns:1fr}
+  .tacho{max-width:320px;order:-1;margin-top:-10px}
+  .f-top{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .services{grid-template-columns:1fr}
+  .svc{min-height:0}
+  .opts{grid-template-columns:1fr}
+  .bodies{gap:8px}
+  .body-btn{padding:12px 10px}
+  .body-btn b{font-size:13.5px}
+  .fields{grid-template-columns:1fr}
+  .sec-head{grid-template-columns:1fr}
+  .sec-num{grid-row:auto;padding:0}
+  .ba{aspect-ratio:4/3}
+  .btns .btn{flex:1 1 100%}
+  .nav-cta{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="rev" id="rev"></div>
+<div class="demo-bar"><b>ДЕМО</b> · Учебный проект для портфолио. Компания «Оборот» вымышленная, цены примерные, заявки никуда не отправляются.</div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="ОБОРОТ, на главную"><i></i>ОБОРОТ</a>
+    <ul>
+      <li><a href="#services">Услуги</a></li>
+      <li><a href="#calc">Цена</a></li>
+      <li><a href="#ba">До / после</a></li>
+      <li><a href="#book">Запись</a></li>
+      <li><a href="#faq">Вопросы</a></li>
+    </ul>
+    <a class="btn btn-red nav-cta" href="#book">Записаться</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="stripe"></div>
+  <div class="wrap">
+    <div>
+      <div class="kicker"><span class="dot"></span>Автосервис и детейлинг · работаем ежедневно 9:00–21:00</div>
+      <h1><span class="ln"><span>Вернём</span></span><span class="ln"><span class="red">машине</span></span><span class="ln"><span class="out">обороты</span></span></h1>
+      <p class="lead fade">Обслуживание, мойка, полировка и защита кузова. Выберите марку и услуги, сразу увидите цену и запишетесь на удобное время, без звонков.</p>
+      <div class="btns fade d2">
+        <a class="btn btn-red" href="#calc">Рассчитать цену <span class="arr">→</span></a>
+        <a class="btn btn-line" href="#book">Онлайн-запись</a>
+      </div>
+    </div>
+    <div class="tacho" id="tacho" aria-hidden="true">
+      <svg viewBox="0 0 400 400" id="tachoSvg">
+        <circle cx="200" cy="200" r="178" fill="#f7f6f2" stroke="#121212" stroke-width="3"/>
+        <circle cx="200" cy="200" r="160" fill="none" stroke="#e2dfd7" stroke-width="18" />
+        <path id="arcFill" fill="none" stroke="#ff3b0a" stroke-width="18" stroke-linecap="butt"/>
+        <g id="ticks"></g>
+        <g id="needle">
+          <path d="M197 200 L200 62 L203 200 Z" fill="#ff3b0a"/>
+          <rect x="196" y="200" width="8" height="34" fill="#121212" rx="2"/>
+        </g>
+        <circle cx="200" cy="200" r="16" fill="#121212"/>
+        <circle cx="200" cy="200" r="5" fill="#ff3b0a"/>
+      </svg>
+      <div class="readout"><div class="rpm" id="rpm">0</div><div class="unit">ОБ/МИН</div></div>
+      <div class="hint">Наведите или коснитесь</div>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
+</header>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">01 / УСЛУГИ</div>
+      <h2>Что делаем</h2>
+      <p class="sec-sub">От планового ТО до керамики. Цены ниже указаны для седана, для кроссовера и внедорожника их пересчитает калькулятор.</p>
+    </div>
+    <div class="services" id="svcGrid"></div>
+  </div>
+</section>
+
+<section class="dark" id="calc">
+  <canvas id="shader" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">02 / КАЛЬКУЛЯТОР</div>
+      <h2>Соберите <span class="out">заказ</span></h2>
+      <p class="sec-sub">Три шага: марка, кузов, услуги. Чек справа обновляется сразу.</p>
+    </div>
+    <div class="calc">
+      <div>
+        <div class="step rv">
+          <div class="step-t"><span class="mono">ШАГ 1</span><h3>Марка</h3></div>
+          <div class="chips" id="brands"></div>
+        </div>
+        <div class="step rv">
+          <div class="step-t"><span class="mono">ШАГ 2</span><h3>Тип кузова</h3></div>
+          <div class="bodies" id="bodies"></div>
+        </div>
+        <div class="step rv">
+          <div class="step-t"><span class="mono">ШАГ 3</span><h3>Услуги</h3></div>
+          <div class="opts" id="opts"></div>
+        </div>
+      </div>
+      <aside class="receipt rv" aria-live="polite">
+        <h4>Ваш заказ</h4>
+        <p class="car" id="rCar">Toyota · седан</p>
+        <ul class="lines" id="rLines"></ul>
+        <div class="mods" id="rMods"></div>
+        <div class="total"><span>Итого</span><b id="rTotal">0 ₽</b></div>
+        <div class="dur" id="rDur">≈ 0 ч</div>
+        <a class="btn btn-red beam" href="#book" id="toBook">Записаться с этим набором <span class="arr">→</span></a>
+        <p class="note">Цены вымышленные, для демонстрации расчёта</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="ba">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">03 / ДО И ПОСЛЕ</div>
+      <h2>Тяните ползунок</h2>
+      <p class="sec-sub">Так на сайте выглядит сравнение «до/после». У реального сервиса здесь будут фото его работ.</p>
+    </div>
+    <div class="ba-wrap rv ba-stage" id="baStage">
+      <div class="ba" id="baBox">
+        <div class="layer before" id="baBefore"></div>
+        <div class="layer after" id="baAfter"></div>
+        <span class="tag l">До</span><span class="tag r">После</span>
+        <div class="handle"><div class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></div></div>
+        <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Сравнение до и после">
+      </div>
+      <div class="ba-side">
+        <button class="ba-tab" data-mode="polish" aria-pressed="true"><b>Полировка</b><span>Тусклый кузов, пыль и паутинка царапин против глубокого блеска</span></button>
+        <button class="ba-tab" data-mode="wash" aria-pressed="false"><b>Мойка</b><span>Грязь после трассы против чистой машины</span></button>
+        <p class="ba-cap">Иллюстрация, а не фото реальной работы</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">04 / КАК ЭТО ИДЁТ</div>
+      <h2>Пять шагов</h2>
+      <p class="sec-sub">Без сюрпризов в чеке: всё, что не согласовано, не делаем.</p>
+    </div>
+    <div class="proc" id="proc">
+      <div class="bar"></div>
+      <div class="ps"><span class="mono">01</span><h3>Запись</h3><p>Онлайн или по телефону. Время держим за вами.</p></div>
+      <div class="ps"><span class="mono">02</span><h3>Осмотр</h3><p>Принимаем машину и снимаем её состояние на фото.</p></div>
+      <div class="ps"><span class="mono">03</span><h3>Согласование</h3><p>Присылаем итоговую цену. Работаем только после «да».</p></div>
+      <div class="ps"><span class="mono">04</span><h3>Работа</h3><p>Держим в курсе в мессенджере, если что-то всплыло.</p></div>
+      <div class="ps"><span class="mono">05</span><h3>Выдача</h3><p>Показываем, что сделали, отдаём старые запчасти.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="book" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">05 / ЗАПИСЬ</div>
+      <h2>Выберите время</h2>
+      <p class="sec-sub">Свободные окна на две недели вперёд. Занятые слоты зачёркнуты.</p>
+    </div>
+    <div class="book">
+      <div class="panel rv" id="bookPanel">
+        <form id="form" novalidate>
+          <span class="lbl">День</span>
+          <div class="days" id="days"></div>
+          <span class="lbl">Время</span>
+          <div class="slots" id="slots"></div>
+          <span class="lbl">Контакты</span>
+          <div class="fields">
+            <div class="field"><input id="fName" placeholder=" " autocomplete="name"><label for="fName">Имя</label></div>
+            <div class="field"><input id="fPhone" placeholder=" " inputmode="tel" autocomplete="tel"><label for="fPhone">Телефон</label></div>
+          </div>
+          <div class="field"><textarea id="fNote" placeholder=" "></textarea><label for="fNote">Комментарий, например «стучит справа на кочках»</label></div>
+          <p class="err" id="err" role="alert"></p>
+          <button class="btn btn-red" type="submit" style="width:100%">Записаться <span class="arr">→</span></button>
+        </form>
+        <div class="done" id="done">
+          <svg viewBox="0 0 90 90" fill="none" stroke="#ff3b0a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle class="ring" cx="45" cy="45" r="40"/><path class="tick" d="M27 46l12 12 25-26"/></svg>
+          <h3>Вы записаны</h3>
+          <p id="doneText"></p>
+          <p style="font-size:13px;color:var(--muted)">Это демо: заявка никуда не отправлена. На сайте заказчика она придёт в Telegram или CRM.</p>
+          <button class="btn btn-line" id="again" type="button">Записаться ещё раз</button>
+        </div>
+      </div>
+      <aside class="panel sum rv">
+        <h3>Сводка</h3>
+        <dl>
+          <dt>Машина</dt><dd id="sCar">—</dd>
+          <dt>Услуги</dt><dd id="sSvc">—</dd>
+          <dt>Когда</dt><dd id="sWhen">не выбрано</dd>
+          <dt>Время</dt><dd id="sDur">—</dd>
+        </dl>
+        <div class="tot"><span class="mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.1em">Примерно</span><b id="sTotal">0 ₽</b></div>
+        <p style="margin:14px 0 0"><a href="#calc">Изменить услуги в калькуляторе</a></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-num">06 / ВОПРОСЫ</div>
+      <h2>Часто спрашивают</h2>
+    </div>
+    <div class="faq rv">
+      <details><summary>Цена в калькуляторе окончательная?<i></i></summary><div class="a"><p>Это ориентир. Точную сумму называем после осмотра и согласовываем до начала работ.</p></div></details>
+      <details><summary>Сколько ждать машину?<i></i></summary><div class="a"><p>Калькулятор показывает примерное время. Мойку можно подождать в зоне отдыха, на полировку и керамику машину лучше оставить на день.</p></div></details>
+      <details><summary>Можно привезти свои запчасти и масло?<i></i></summary><div class="a"><p>Да. Гарантию в этом случае даём на работу, а не на сами детали.</p></div></details>
+      <details><summary>Как отменить или перенести запись?<i></i></summary><div class="a"><p>Напишите в мессенджер или позвоните. Перенос бесплатный, если предупредили хотя бы за пару часов.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <p class="f-big">Обо<span>рот</span></p>
+      <div>
+        <h4>Контакты</h4>
+        <p>Адрес и телефон появятся у реального заказчика</p>
+        <p>Ежедневно 9:00–21:00</p>
+      </div>
+      <div>
+        <h4>О сайте</h4>
+        <p>Демо-сайт для портфолио. Сделал Андрей.</p>
+        <p><a href="https://t.me/TotidJ76" target="_blank" rel="noopener" style="color:var(--paper)">Telegram @TotidJ76</a></p>
+        <p><a href="../" style="color:var(--paper)">← Все работы</a></p>
+      </div>
+    </div>
+    <div class="f-bot">
+      <span>© ОБОРОТ — вымышленная компания</span>
+      <span>Хотите такой сайт для своего сервиса? <a href="https://t.me/TotidJ76" target="_blank" rel="noopener">Напишите</a></span>
+    </div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+
+/* ---------- data ---------- */
+const SERVICES = [
+  {id:'wash',  n:'Комплексная мойка', d:'Кузов, диски, коврики, пылесос салона', p:1500, h:1.5, icon:'<path d="M8 30h28M10 30l3-9h18l3 9M14 36v-6M30 36v-6"/><path d="M14 13c0-3 3-3 3-6M22 13c0-3 3-3 3-6M30 13c0-3 3-3 3-6"/>'},
+  {id:'to',    n:'Плановое ТО',       d:'Масло, фильтры, проверка по регламенту', p:3500, h:2, icon:'<circle cx="22" cy="22" r="8"/><path d="M22 6v5M22 33v5M6 22h5M33 22h5M10.7 10.7l3.5 3.5M29.8 29.8l3.5 3.5M10.7 33.3l3.5-3.5M29.8 14.2l3.5-3.5"/>'},
+  {id:'diag',  n:'Компьютерная диагностика', d:'Ошибки ЭБУ и проверка ходовой', p:1500, h:1, icon:'<rect x="6" y="9" width="32" height="22" rx="2"/><path d="M11 22l5-6 5 4 6-8 6 6M16 37h12M22 31v6"/>'},
+  {id:'tires', n:'Шиномонтаж',        d:'Снять, поставить, отбалансировать 4 колеса', p:2400, h:1, icon:'<circle cx="22" cy="22" r="15"/><circle cx="22" cy="22" r="6"/><path d="M22 7v9M22 28v9M7 22h9M28 22h9"/>'},
+  {id:'polish',n:'Полировка кузова',  d:'Убираем паутинку и тусклость лака', p:9000, h:6, icon:'<path d="M8 36l14-14M20 18l6 6M24 10l10 10-6 6-10-10z"/><path d="M33 6v4M31 8h4M38 15v3M36.5 16.5h3"/>'},
+  {id:'ceram', n:'Керамика',          d:'Защитное покрытие кузова', p:18000, h:8, icon:'<path d="M22 6l13 5v10c0 8-6 13-13 16-7-3-13-8-13-16V11z"/><path d="M16 22l4 4 8-8"/>'},
+  {id:'inter', n:'Химчистка салона',  d:'Сиденья, потолок, ковры, пластик', p:7000, h:5, icon:'<path d="M14 36V18c0-6 4-10 10-10h2v16h8v12z"/><path d="M14 30h20"/>'},
+  {id:'film',  n:'Плёнка на фары',    d:'Защита от сколов и помутнения', p:4000, h:2, icon:'<path d="M6 22c0-7 8-12 18-12 6 0 12 4 14 12-2 8-8 12-14 12-10 0-18-5-18-12z"/><path d="M34 16l6-3M35 22h6M34 28l6 3"/>'},
+];
+const BRANDS = [
+  {n:'Toyota'},{n:'Kia'},{n:'Hyundai'},{n:'Volkswagen'},{n:'Skoda'},{n:'Lada'},{n:'Haval'},{n:'Chery'},
+  {n:'BMW',prem:1},{n:'Mercedes',prem:1},{n:'Audi',prem:1},{n:'Lexus',prem:1},{n:'Другая'}
+];
+const BODIES = [
+  {id:'sedan', n:'Седан / хэтчбек', k:1, svg:'<path d="M4 38h8a6 6 0 0 0 12 0h32a6 6 0 0 0 12 0h8v-8l-10-4-12-10H36L24 26 8 28 4 32z"/><circle cx="18" cy="38" r="5"/><circle cx="62" cy="38" r="5"/>'},
+  {id:'cross', n:'Кроссовер',      k:1.2, svg:'<path d="M4 38h8a6 6 0 0 0 12 0h32a6 6 0 0 0 12 0h8V27l-8-3-10-11H30L20 24 6 26 4 30z"/><circle cx="18" cy="38" r="5"/><circle cx="62" cy="38" r="5"/>'},
+  {id:'suv',   n:'Внедорожник / минивэн', k:1.4, svg:'<path d="M4 38h8a6 6 0 0 0 12 0h32a6 6 0 0 0 12 0h8V22l-6-2-4-10H22l-8 10-10 2z"/><circle cx="18" cy="38" r="5"/><circle cx="62" cy="38" r="5"/>'},
+];
+const state = {brand:'Toyota', body:'sedan', svc:new Set(['wash']), day:null, slot:null};
+
+/* ---------- progress bar ---------- */
+const rev = $('#rev');
+const onScroll = () => {
+  const h = document.documentElement;
+  rev.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight || 1)})`;
+  procUpdate(); stageUpdate();
+};
+
+/* ---------- tachometer ---------- */
+const CX = 200, CY = 200, A0 = -225, A1 = 45, MAXR = 8000; // degrees, 0 = right
+const pol = (a, r) => [CX + r * Math.cos(a * Math.PI / 180), CY + r * Math.sin(a * Math.PI / 180)];
+const ticks = $('#ticks');
+let tk = '';
+for (let i = 0; i <= 80; i++) {
+  const a = A0 + (A1 - A0) * i / 80, big = i % 10 === 0, mid = i % 5 === 0;
+  const [x1, y1] = pol(a, 148), [x2, y2] = pol(a, big ? 124 : mid ? 133 : 140);
+  tk += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${i >= 65 ? '#ff3b0a' : '#121212'}" stroke-width="${big ? 3 : mid ? 2 : 1}"/>`;
+  if (big) { const [tx, ty] = pol(a, 106); tk += `<text x="${tx}" y="${ty + 6}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="700" font-size="17" fill="${i >= 70 ? '#ff3b0a' : '#121212'}">${i / 10}</text>`; }
+}
+ticks.innerHTML = tk;
+const arc = $('#arcFill');
+const needle = $('#needle');
+const rpmEl = $('#rpm');
+let rpm = 0, target = 900;
+function arcPath(v) {
+  const a = A0 + (A1 - A0) * Math.min(v, MAXR) / MAXR;
+  const [x0, y0] = pol(A0, 160), [x1, y1] = pol(a, 160);
+  return `M${x0} ${y0} A160 160 0 ${a - A0 > 180 ? 1 : 0} 1 ${x1} ${y1}`;
+}
+function drawTacho() {
+  const a = A0 + (A1 - A0) * rpm / MAXR + 90; // needle drawn pointing up (-90)
+  needle.style.transform = `rotate(${a}deg)`;
+  arc.setAttribute('d', arcPath(Math.max(rpm, 1)));
+  arc.setAttribute('stroke', rpm > 6500 ? '#ff3b0a' : '#121212');
+  rpmEl.textContent = Math.round(rpm / 10) * 10;
+}
+let revving = false, last = performance.now();
+function loop(t) {
+  const dt = Math.min(50, t - last); last = t;
+  const idle = 850 + Math.sin(t / 180) * 25;
+  const goal = revving ? 7400 + Math.sin(t / 60) * 120 : (target > 900 ? target : idle);
+  rpm += (goal - rpm) * (goal > rpm ? 0.006 : 0.004) * dt;
+  drawTacho();
+  requestAnimationFrame(loop);
+}
+// intro sweep
+needle.style.transition = 'none';
+if (reduce) { rpm = 900; drawTacho(); }
+else {
+  target = 7800;
+  setTimeout(() => { target = 900; }, 900);
+  requestAnimationFrame(loop);
+}
+const tacho = $('#tacho');
+tacho.addEventListener('pointerenter', () => revving = true);
+tacho.addEventListener('pointerleave', () => revving = false);
+tacho.addEventListener('pointerdown', e => { revving = true; if (e.pointerType !== 'mouse') setTimeout(() => revving = false, 1200); });
+
+/* ---------- marquee ---------- */
+const mqWords = ['Плановое ТО', 'Диагностика', 'Шиномонтаж', 'Полировка', 'Керамика', 'Химчистка', 'Мойка', 'Плёнка на фары'];
+$('#mq').innerHTML = [...mqWords, ...mqWords].map(w => `<span>${w}</span>`).join('');
+
+/* ---------- services grid ---------- */
+$('#svcGrid').innerHTML = SERVICES.map((s, i) => `
+  <article class="svc rv" style="transition-delay:${(i % 4) * 70}ms">
+    <span class="n">${String(i + 1).padStart(2, '0')}</span>
+    <svg viewBox="0 0 44 44" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg>
+    <h3>${s.n}</h3><p>${s.d}</p>
+    <span class="price"><small>от</small> ${rub(s.p)}</span>
+  </article>`).join('');
+
+/* ---------- calculator ---------- */
+const brandsEl = $('#brands'), bodiesEl = $('#bodies'), optsEl = $('#opts');
+brandsEl.innerHTML = BRANDS.map(b => `<button class="chip" type="button" data-b="${b.n}" aria-pressed="${b.n === state.brand}">${b.n}</button>`).join('');
+bodiesEl.innerHTML = BODIES.map(b => `<button class="body-btn" type="button" data-body="${b.id}" aria-pressed="${b.id === state.body}"><svg viewBox="0 0 80 46" stroke-linejoin="round">${b.svg}</svg><b>${b.n}</b><small>× ${String(b.k).replace('.', ',')}</small></button>`).join('');
+optsEl.innerHTML = SERVICES.map(s => `<button class="opt" type="button" data-s="${s.id}" aria-pressed="${state.svc.has(s.id)}"><span class="box"></span><span class="txt"><b>${s.n}</b><small>≈ ${fmtH(s.h)}</small></span><span class="p" data-p="${s.id}"></span></button>`).join('');
+
+brandsEl.addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  state.brand = b.dataset.b;
+  $$('.chip', brandsEl).forEach(c => c.setAttribute('aria-pressed', c === b));
+  update();
+});
+bodiesEl.addEventListener('click', e => {
+  const b = e.target.closest('.body-btn'); if (!b) return;
+  state.body = b.dataset.body;
+  $$('.body-btn', bodiesEl).forEach(c => c.setAttribute('aria-pressed', c === b));
+  update();
+});
+optsEl.addEventListener('click', e => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  const id = b.dataset.s;
+  state.svc.has(id) ? state.svc.delete(id) : state.svc.add(id);
+  b.setAttribute('aria-pressed', state.svc.has(id));
+  update();
+});
+
+function fmtH(h) {
+  if (h < 1) return Math.round(h * 60) + ' мин';
+  const r = Math.round(h * 2) / 2;
+  return String(r).replace('.', ',') + ' ч';
+}
+function calc() {
+  const body = BODIES.find(b => b.id === state.body);
+  const brand = BRANDS.find(b => b.n === state.brand);
+  const pk = brand.prem ? 1.15 : 1;
+  const items = SERVICES.filter(s => state.svc.has(s.id)).map(s => ({...s, price: Math.round(s.p * body.k * pk / 50) * 50}));
+  let sum = items.reduce((a, s) => a + s.price, 0);
+  const disc = items.length >= 3 ? 0.1 : 0;
+  sum = Math.round(sum * (1 - disc) / 50) * 50;
+  const hours = items.reduce((a, s) => a + s.h, 0) * (body.k > 1 ? 1.15 : 1);
+  return {body, brand, pk, items, sum, disc, hours};
+}
+
+let shown = 0, anim;
+function countTo(el, to, extra) {
+  cancelAnimationFrame(anim);
+  const from = shown, t0 = performance.now(), D = reduce ? 1 : 520;
+  const step = t => {
+    const k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3);
+    shown = from + (to - from) * e;
+    el.textContent = rub(shown);
+    if (extra) extra.textContent = rub(shown);
+    if (k < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+
+function update() {
+  const c = calc();
+  const carName = `${c.brand.n} · ${c.body.n.split(' /')[0].toLowerCase()}`;
+  $('#rCar').textContent = carName;
+  $$('[data-p]').forEach(el => {
+    const s = SERVICES.find(x => x.id === el.dataset.p);
+    el.textContent = rub(Math.round(s.p * c.body.k * c.pk / 50) * 50);
+  });
+  $('#rLines').innerHTML = c.items.length
+    ? c.items.map(s => `<li><span>${s.n}</span><span>${rub(s.price)}</span></li>`).join('')
+    : '<li class="empty">Отметьте хотя бы одну услугу</li>';
+  const mods = [];
+  if (c.body.k > 1) mods.push(`кузов × ${String(c.body.k).replace('.', ',')}`);
+  if (c.pk > 1) mods.push('премиум-марка +15%');
+  if (c.disc) mods.push('от 3 услуг −10%');
+  $('#rMods').textContent = mods.join(' · ');
+  countTo($('#rTotal'), c.sum, $('#sTotal'));
+  $('#rDur').textContent = c.items.length ? `≈ ${fmtH(c.hours)} работы` : '';
+  // booking summary
+  $('#sCar').textContent = carName;
+  $('#sSvc').textContent = c.items.length ? c.items.map(s => s.n).join(', ') : '—';
+  $('#sDur').textContent = c.items.length ? '≈ ' + fmtH(c.hours) : '—';
+}
+$('#toBook').addEventListener('click', () => toast('Набор услуг перенесён в запись'));
+
+/* ---------- before / after ---------- */
+function carSVG(kind, mode) {
+  const after = kind === 'after';
+  const id = kind + mode;
+  const bodyFill = after ? `url(#paint${id})` : (mode === 'wash' ? '#7a7466' : '#5f6670');
+  const bg = after
+    ? `<rect width="800" height="450" fill="url(#bg${id})"/><ellipse cx="400" cy="372" rx="330" ry="22" fill="#000" opacity=".45"/>`
+    : `<rect width="800" height="450" fill="url(#bg${id})"/><ellipse cx="400" cy="372" rx="330" ry="22" fill="#000" opacity=".35"/>`;
+  const defs = `
+    <linearGradient id="bg${id}" x1="0" y1="0" x2="0" y2="1">
+      ${after ? '<stop offset="0" stop-color="#2a2a2e"/><stop offset=".72" stop-color="#151518"/><stop offset="1" stop-color="#0c0c0d"/>'
+              : '<stop offset="0" stop-color="#4a4741"/><stop offset=".72" stop-color="#34322d"/><stop offset="1" stop-color="#26241f"/>'}
+    </linearGradient>
+    <linearGradient id="paint${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff6a3d"/><stop offset=".42" stop-color="#ff3b0a"/><stop offset=".58" stop-color="#b52300"/><stop offset="1" stop-color="#5a1100"/>
+    </linearGradient>
+    <linearGradient id="glass${id}" x1="0" y1="0" x2="1" y2="1">
+      ${after ? '<stop offset="0" stop-color="#9fb3c6"/><stop offset=".5" stop-color="#1c2833"/><stop offset="1" stop-color="#0d1218"/>'
+              : '<stop offset="0" stop-color="#77756d"/><stop offset="1" stop-color="#3b3a36"/>'}
+    </linearGradient>
+    <filter id="dust${id}" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="${mode === 'wash' ? '.018 .05' : '.9'}" numOctaves="3" seed="4"/>
+      <feColorMatrix values="0 0 0 0 .55  0 0 0 0 .5  0 0 0 0 .42  0 0 0 ${mode === 'wash' ? '1.6' : '.9'} -.35"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <clipPath id="clip${id}"><path d="${BODY}"/></clipPath>`;
+  const wheels = [210, 595].map(x => `
+    <circle cx="${x}" cy="330" r="58" fill="#0b0b0b"/>
+    <circle cx="${x}" cy="330" r="38" fill="${after ? '#c9ccd1' : '#6c6a63'}"/>
+    <g stroke="${after ? '#7a7e85' : '#4a4843'}" stroke-width="7" stroke-linecap="round">
+      ${[0, 72, 144, 216, 288].map(a => { const r = a * Math.PI / 180; return `<line x1="${x}" y1="330" x2="${x + 32 * Math.cos(r)}" y2="${330 + 32 * Math.sin(r)}"/>`; }).join('')}
+    </g>
+    <circle cx="${x}" cy="330" r="9" fill="${after ? '#ff3b0a' : '#3d3b36'}"/>
+    ${after ? '' : `<path d="M${x - 50} 300 q20 -20 50 -22" stroke="#8a7f68" stroke-width="10" fill="none" opacity=".6"/>`}`).join('');
+  let extra = '';
+  if (after) {
+    extra = `
+      <g clip-path="url(#clip${id})">
+        <path d="M70 230 C 250 215, 560 210, 760 236 L760 248 C 560 222, 250 226, 70 242 Z" fill="#fff" opacity=".55"/>
+        <path d="M300 150 L 560 150 L 520 210 L 270 210 Z" fill="#fff" opacity=".07"/>
+        <rect x="0" y="0" width="140" height="450" fill="url(#shine${id})" transform="skewX(-20)">
+          <animate attributeName="x" values="-300;1100" dur="3.6s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <linearGradient id="shine${id}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      ${[[330, 158, 0], [612, 214, .8], [140, 250, 1.5], [470, 236, 2.1]].map(([x, y, d]) => `<path class="sparkle" style="animation-delay:${d}s" d="M${x} ${y - 14} L${x + 3} ${y - 3} L${x + 14} ${y} L${x + 3} ${y + 3} L${x} ${y + 14} L${x - 3} ${y + 3} L${x - 14} ${y} L${x - 3} ${y - 3} Z" fill="#fff"/>`).join('')}
+      <ellipse cx="722" cy="252" rx="22" ry="11" fill="#fff8d0"/>
+      <ellipse cx="722" cy="252" rx="60" ry="26" fill="#fff3a8" opacity=".18"/>`;
+  } else {
+    extra = `
+      <g clip-path="url(#clip${id})">
+        <rect width="800" height="450" fill="#fff" filter="url(#dust${id})"/>
+        ${mode === 'polish'
+          ? Array.from({length: 26}, (_, i) => { const x = 120 + (i * 97) % 560, y = 170 + (i * 53) % 130, r = 18 + (i * 7) % 26; return `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="#c9c5bb" stroke-width=".8" opacity=".45"/>`; }).join('')
+          : `<path d="M60 300 Q 140 250 220 296 T 400 290 T 580 300 T 770 286 L770 380 L60 380 Z" fill="#6b5a3e" opacity=".75"/>
+             ${Array.from({length: 18}, (_, i) => `<circle cx="${80 + i * 38}" cy="${262 + (i * 17) % 34}" r="${4 + (i * 3) % 7}" fill="#5c4c33" opacity=".8"/>`).join('')}`}
+      </g>
+      <ellipse cx="722" cy="252" rx="22" ry="11" fill="#9b9786"/>`;
+  }
+  return `<svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${bg}
+    <path d="${BODY}" fill="${bodyFill}"/>
+    <path d="${GLASS}" fill="url(#glass${id})"/>
+    <path d="M415 152 L 422 226" stroke="${after ? '#3a0b00' : '#3e3c37'}" stroke-width="5"/>
+    <path d="M300 238 L 690 238" stroke="${after ? '#6e1600' : '#4c4b46'}" stroke-width="2" opacity=".7"/>
+    <rect x="455" y="244" width="34" height="6" rx="3" fill="${after ? '#2a0700' : '#3e3c37'}"/>
+    <rect x="305" y="244" width="34" height="6" rx="3" fill="${after ? '#2a0700' : '#3e3c37'}"/>
+    ${extra}
+    ${wheels}
+  </svg>`;
+}
+const BODY = 'M62 322 C 54 300, 58 262, 90 250 C 130 236, 200 232, 262 226 C 300 186, 350 156, 420 150 C 500 144, 560 160, 618 210 C 680 216, 735 228, 752 252 C 764 270, 764 300, 752 322 L 662 322 A 68 68 0 0 0 528 322 L 278 322 A 68 68 0 0 0 142 322 Z';
+const GLASS = 'M290 224 C 322 190, 362 168, 410 164 L 416 224 Z M 432 164 C 490 162, 540 178, 586 216 L 428 224 Z';
+
+const baBox = $('#baBox'), baRange = $('#baRange');
+function setMode(mode) {
+  $('#baBefore').innerHTML = carSVG('before', mode);
+  $('#baAfter').innerHTML = carSVG('after', mode);
+  $$('.ba-tab').forEach(t => t.setAttribute('aria-pressed', t.dataset.mode === mode));
+}
+setMode('polish');
+$$('.ba-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
+baRange.addEventListener('input', () => baBox.style.setProperty('--pos', baRange.value + '%'));
+// hint wiggle when visible
+let wiggled = false;
+new IntersectionObserver(([e], o) => {
+  if (!e.isIntersecting || wiggled || reduce) return;
+  wiggled = true; o.disconnect();
+  const t0 = performance.now();
+  const w = t => { const k = (t - t0) / 1600; if (k > 1) { baBox.style.setProperty('--pos', '50%'); return; } baBox.style.setProperty('--pos', (50 + Math.sin(k * Math.PI * 2) * 22 * (1 - k)) + '%'); requestAnimationFrame(w); };
+  requestAnimationFrame(w);
+}, {threshold: .6}).observe(baBox);
+
+/* ---------- process line ---------- */
+const proc = $('#proc'), steps = $$('.ps', proc);
+function procUpdate() {
+  const r = proc.getBoundingClientRect(), vh = innerHeight;
+  const p = Math.max(0, Math.min(1, (vh * 0.8 - r.top) / (r.height + vh * 0.35)));
+  proc.style.setProperty('--p', p);
+  steps.forEach((s, i) => s.classList.toggle('on', p >= i / steps.length + 0.01));
+}
+
+/* ---------- booking ---------- */
+const DOW = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+const MON = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const days = Array.from({length: 14}, (_, i) => new Date(today.getTime() + i * 864e5));
+const daysEl = $('#days'), slotsEl = $('#slots');
+daysEl.innerHTML = days.map((d, i) => `<button type="button" class="day" data-i="${i}" aria-pressed="false"><small>${i === 0 ? 'сегодня' : i === 1 ? 'завтра' : DOW[d.getDay()]}</small><b>${d.getDate()}</b><small>${MON[d.getMonth()]}</small></button>`).join('');
+const TIMES = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
+function busy(dayIdx, t) { // stable pseudo-random "occupied" slots
+  const s = Math.sin((dayIdx + 1) * 999 + t * 77.7) * 10000;
+  return s - Math.floor(s) < 0.33;
+}
+function renderSlots() {
+  if (state.day === null) { slotsEl.innerHTML = '<span style="color:var(--muted);font-size:14px;grid-column:1/-1">Сначала выберите день</span>'; return; }
+  const now = new Date();
+  slotsEl.innerHTML = TIMES.map((t, i) => {
+    const past = state.day === 0 && +t.slice(0, 2) <= now.getHours();
+    const dis = past || busy(state.day, i);
+    return `<button type="button" class="slot" data-t="${t}" ${dis ? 'disabled' : ''} aria-pressed="${state.slot === t}">${t}</button>`;
+  }).join('');
+}
+daysEl.addEventListener('click', e => {
+  const b = e.target.closest('.day'); if (!b) return;
+  state.day = +b.dataset.i; state.slot = null;
+  $$('.day', daysEl).forEach(d => d.setAttribute('aria-pressed', d === b));
+  renderSlots(); whenUpdate();
+});
+slotsEl.addEventListener('click', e => {
+  const b = e.target.closest('.slot'); if (!b || b.disabled) return;
+  state.slot = b.dataset.t;
+  $$('.slot', slotsEl).forEach(d => d.setAttribute('aria-pressed', d === b));
+  whenUpdate();
+});
+function whenText() {
+  if (state.day === null) return 'не выбрано';
+  const d = days[state.day];
+  return `${d.getDate()} ${MON[d.getMonth()]}, ${DOW[d.getDay()]}${state.slot ? ' в ' + state.slot : ''}`;
+}
+function whenUpdate() { $('#sWhen').textContent = whenText(); }
+renderSlots();
+
+// phone mask +7 (999) 999-99-99
+const phone = $('#fPhone');
+phone.addEventListener('input', () => {
+  let d = phone.value.replace(/\D/g, '');
+  if (d.startsWith('8')) d = '7' + d.slice(1);
+  if (d && !d.startsWith('7')) d = '7' + d;
+  d = d.slice(0, 11);
+  let o = d ? '+7' : '';
+  if (d.length > 1) o += ' (' + d.slice(1, 4);
+  if (d.length >= 4) o += ')';
+  if (d.length > 4) o += ' ' + d.slice(4, 7);
+  if (d.length > 7) o += '-' + d.slice(7, 9);
+  if (d.length > 9) o += '-' + d.slice(9, 11);
+  phone.value = o;
+});
+
+$('#form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#fName'), err = $('#err');
+  $$('.field').forEach(f => f.classList.remove('bad'));
+  let msg = '';
+  if (!calc().items.length) msg = 'Выберите хотя бы одну услугу в калькуляторе.';
+  else if (state.day === null || !state.slot) msg = 'Выберите день и время.';
+  else if (name.value.trim().length < 2) { msg = 'Как к вам обращаться?'; name.parentNode.classList.add('bad'); }
+  else if (phone.value.replace(/\D/g, '').length !== 11) { msg = 'Проверьте номер телефона.'; phone.parentNode.classList.add('bad'); }
+  err.textContent = msg;
+  if (msg) return;
+  const c = calc();
+  $('#doneText').textContent = `${name.value.trim()}, ждём ${c.brand.n} ${whenText()}. Примерная стоимость ${rub(c.sum)}.`;
+  $('#form').style.display = 'none';
+  const done = $('#done'); done.classList.remove('show'); void done.offsetWidth; done.classList.add('show');
+});
+$('#again').addEventListener('click', () => {
+  $('#done').classList.remove('show'); $('#form').style.display = '';
+  state.slot = null; renderSlots(); whenUpdate();
+});
+
+/* ---------- faq smooth ---------- */
+$$('.faq details').forEach(d => {
+  const a = $('.a', d);
+  d.querySelector('summary').addEventListener('click', e => {
+    e.preventDefault();
+    if (d.open) {
+      a.style.height = a.scrollHeight + 'px';
+      requestAnimationFrame(() => a.style.height = '0px');
+      setTimeout(() => d.open = false, reduce ? 0 : 340);
+    } else {
+      d.open = true; a.style.height = '0px';
+      requestAnimationFrame(() => a.style.height = a.scrollHeight + 'px');
+      setTimeout(() => a.style.height = 'auto', reduce ? 0 : 360);
+    }
+  });
+});
+
+/* ---------- toast ---------- */
+let tt;
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2200); }
+
+/* ---------- spotlight on service cards ---------- */
+$('#svcGrid').addEventListener('pointermove', e => {
+  const c = e.target.closest('.svc'); if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+});
+
+/* ---------- text scramble on headings ---------- */
+const GLY = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ0123456789#%&';
+function scramble(el) {
+  if (reduce || el.dataset.done) return; el.dataset.done = 1;
+  const nodes = [];
+  const walk = n => n.childNodes.forEach(c => c.nodeType === 3 ? nodes.push({n: c, t: c.textContent}) : walk(c));
+  walk(el);
+  const t0 = performance.now(), D = 700;
+  const f = t => {
+    const k = Math.min(1, (t - t0) / D);
+    nodes.forEach(({n, t: txt}) => {
+      const keep = Math.floor(txt.length * k);
+      n.textContent = txt.slice(0, keep) + [...txt.slice(keep)].map(ch => ch === ' ' ? ' ' : GLY[(Math.random() * GLY.length) | 0]).join('');
+    });
+    if (k < 1) requestAnimationFrame(f);
+  };
+  requestAnimationFrame(f);
+}
+const sio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { scramble(e.target); sio.unobserve(e.target); } }), {threshold: .6});
+$$('section h2').forEach(h => sio.observe(h));
+
+/* ---------- scroll media expansion: before/after grows into place ---------- */
+const stage = $('#baStage');
+function stageUpdate() {
+  if (reduce) return;
+  const r = stage.getBoundingClientRect(), vh = innerHeight;
+  const k = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.75)));
+  stage.style.transform = `scale(${0.82 + 0.18 * k})`;
+}
+
+/* ---------- WebGL shader: road-light streaks behind calculator ---------- */
+(function shader() {
+  const cv = $('#shader'); if (!cv || reduce) return;
+  const gl = cv.getContext('webgl', {antialias: false}); if (!gl) return;
+  const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fs = `precision mediump float;uniform vec2 r;uniform float t;
+  float h(float n){return fract(sin(n)*43758.5453);}
+  void main(){vec2 uv=gl_FragCoord.xy/r;vec3 col=vec3(0.);
+    for(int i=0;i<14;i++){float fi=float(i);float y=h(fi*3.1)*1.1-.05;float sp=.05+h(fi*7.7)*.12;
+      float x=fract(uv.x*(.6+h(fi)*.6)-t*sp+h(fi*1.3));
+      float w=.0015+h(fi*5.)*.004;float d=abs(uv.y-y-sin(uv.x*3.+fi)*.03);
+      float line=smoothstep(w*6.,0.,d)*pow(x,6.);
+      col+=mix(vec3(1.,.23,.04),vec3(1.,.75,.55),h(fi*9.))*line;}
+    col+=vec3(1.,.23,.04)*.06*smoothstep(.9,0.,distance(uv,vec2(.85,.2)));
+    float a=clamp(max(col.r,max(col.g,col.b)),0.,1.);
+    gl_FragColor=vec4(col,a);}`;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, 'r'), uT = gl.getUniformLocation(pr, 't');
+  let vis = false;
+  new IntersectionObserver(([e]) => vis = e.isIntersecting).observe(cv);
+  const size = () => { const d = Math.min(devicePixelRatio, 1.5); cv.width = cv.clientWidth * d; cv.height = cv.clientHeight * d; gl.viewport(0, 0, cv.width, cv.height); };
+  size(); addEventListener('resize', size);
+  const fr = t => { if (vis) { gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, t / 1000); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } requestAnimationFrame(fr); };
+  requestAnimationFrame(fr);
+})();
+
+/* ---------- reveal ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: .12, rootMargin: '0px 0px -40px 0px'});
+$$('.rv').forEach(el => io.observe(el));
+
+addEventListener('scroll', onScroll, {passive: true});
+addEventListener('resize', onScroll);
+update(); onScroll();
+})();
+</script>
+</body>
+</html>

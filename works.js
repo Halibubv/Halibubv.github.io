@@ -10,4 +10,12 @@ window.WORKS = [
     image: "vinland/screenshots/desktop-nutrition.jpg",
     link: "vinland/",
   },
+  {
+    title: "ОБОРОТ",
+    kind: "Демо-сайт автосервиса",
+    text: "Вымышленный автосервис и детейлинг: калькулятор цены под марку и кузов, онлайн-запись по слотам, сравнение «до/после», WebGL-фон и живые анимации.",
+    stack: ["HTML", "CSS", "JavaScript", "WebGL"],
+    image: "oborot/preview.jpg",
+    link: "oborot/",
+  },
 ];
