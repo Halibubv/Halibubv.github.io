@@ -1,0 +1,58 @@
+# Blueprint для Render: два бесплатных веб-сервиса (ОБОРОТ и Пенка) из apps/*/Dockerfile.
+# База — внешняя: один бесплатный MySQL в Aiven на оба приложения, у каждого своя база (DB_NAME).
+# Адрес базы и сертификат вводятся вручную при создании (sync: false), в Git их нет.
+services:
+  - type: web
+    name: oborot
+    runtime: docker
+    plan: free
+    region: frankfurt
+    rootDir: apps/oborot
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      # Service URI из Aiven: mysql://avnadmin:пароль@хост:порт/defaultdb?ssl-mode=REQUIRED
+      - key: DATABASE_URL
+        sync: false
+      # Текст CA-сертификата Aiven (ca.pem целиком)
+      - key: DB_SSL_CA
+        sync: false
+      # Своя база внутри того же сервера Aiven; приложение создаст её при первом запуске
+      - key: DB_NAME
+        value: oborot
+      - key: SESSION_SECURE
+        value: "1"
+      - key: TRUST_PROXY
+        value: "1"
+      # Публичное демо: статусы записей менять можно, прайс и настройки — нет
+      - key: DEMO_MODE
+        value: "1"
+      # Пересоздавать демо-данные при каждом запуске, чтобы записи были на ближайшие дни
+      - key: RESET_DEMO
+        value: "1"
+
+  - type: web
+    name: penka
+    runtime: docker
+    plan: free
+    region: frankfurt
+    rootDir: apps/penka
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_SSL_CA
+        sync: false
+      - key: DB_NAME
+        value: penka
+      - key: SESSION_SECURE
+        value: "1"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DEMO_MODE
+        value: "1"
+      - key: RESET_DEMO
+        value: "1"
