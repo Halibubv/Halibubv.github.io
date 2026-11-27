@@ -1,0 +1,46 @@
+/* Дополнения к лендингу для работы с сервером: кнопка входа, сообщения API, выбор машины.
+   Основные стили лендинга — внутри index.html, здесь только новое. */
+
+/* Шапка: меню посередине, справа «Войти» и «Записаться». */
+nav .wrap { justify-content: flex-start; }
+nav ul { margin: 0 auto; }
+.nav-auth { padding: 12px 18px; font-size: 13px; }
+@media (max-width: 820px) {
+  .nav-auth { margin-left: auto; }
+}
+@media (max-width: 560px) {
+  .nav-auth { padding: 11px 14px; }
+}
+
+/* Сообщения вместо данных, если API недоступно или слотов нет. */
+.api-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 22px 24px;
+  border: 1px dashed var(--red);
+  border-radius: var(--r);
+  color: var(--red);
+  font: 600 15px/1.4 var(--sans);
+}
+.dark .api-error { background: #231511; }
+.slots-msg { grid-column: 1 / -1; color: var(--muted); font-size: 14px; }
+
+/* Выбор машины из гаража в форме записи. */
+.garage-pick { margin-bottom: 22px; }
+.garage-cars { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.garage-car {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: var(--r);
+  padding: 11px 14px;
+  text-align: left;
+  transition: border-color .2s, background .2s, color .2s;
+}
+.garage-car b { display: block; font: 600 15px/1.2 var(--sans); }
+.garage-car small { display: block; font: 500 12px/1.4 var(--mono); color: var(--muted); margin-top: 3px; }
+.garage-car:hover { border-color: var(--ink); }
+.garage-car[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.garage-car[aria-pressed="true"] small { color: #aaa; }
+
+#form [type=submit]:disabled { opacity: .6; cursor: progress; }
+.done-link { display: inline-block; margin-top: 10px; color: var(--red); font-weight: 700; }
