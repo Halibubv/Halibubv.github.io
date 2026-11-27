@@ -321,20 +321,6 @@
     gsap.to(b, { y: dir * (80 + k * 40), rotate: dir * 120, ease: "none", scrollTrigger: heroST });
   });
 
-  // Бегущая строка ускоряется и меняет направление вслед за прокруткой
-  const track = $(".ticker-track");
-  track.style.animation = "none";
-  const tick = gsap.to(track, { xPercent: -50, duration: 32, ease: "none", repeat: -1 });
-  ScrollTrigger.create({
-    onUpdate(self) {
-      const dir = self.direction < 0 ? -1 : 1;
-      const speed = Math.min(5, Math.max(1, Math.abs(self.getVelocity()) / 250));
-      gsap.timeline({ overwrite: true })
-        .to(tick, { timeScale: dir * speed, duration: 0.2 })
-        .to(tick, { timeScale: dir, duration: 1.2 });
-    },
-  });
-
   // Путь зерна: на широком экране секция закрепляется и едет вбок
   gsap.matchMedia().add("(min-width: 961px)", () => {
     const pTrack = $(".process-track");
@@ -344,8 +330,8 @@
       scrollTrigger: { trigger: ".process", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 },
     });
     $$(".step").forEach(st => {
-      gsap.from(st.querySelector("svg"), {
-        scale: 0.6, rotate: -12, opacity: 0, ease: "back.out(1.7)", duration: 0.8,
+      gsap.from(st.querySelector(".step-photo"), {
+        scale: 0.85, rotate: -4, opacity: 0, ease: "back.out(1.4)", duration: 0.8,
         scrollTrigger: { trigger: st, containerAnimation: tween, start: "left 80%" },
       });
     });
