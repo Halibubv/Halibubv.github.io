@@ -81,16 +81,6 @@
     });
   });
 
-  // Бегущая строка ускоряется от скорости прокрутки
-  var mq = document.querySelector(".marquee-track");
-  if (mq && lenis) {
-    var anims = mq.getAnimations ? mq.getAnimations() : [];
-    lenis.on("scroll", function (l) {
-      var v = Math.min(Math.abs(l.velocity || 0), 40);
-      anims.forEach(function (an) { an.playbackRate = 1 + v / 8; });
-    });
-  }
-
   // Шторка для скриншотов
   function curtain(shot, st) {
     var img = shot.querySelector("img");

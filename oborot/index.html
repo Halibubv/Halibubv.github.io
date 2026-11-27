@@ -99,12 +99,21 @@ h1 .out{color:transparent;-webkit-text-stroke:2px var(--ink)}
 #needle{transform-origin:200px 200px;transition:transform .12s linear}
 .tick-red{stroke:var(--red)}
 
-/* marquee */
-.marquee{background:var(--ink);color:var(--paper);overflow:hidden;border-block:1px solid var(--ink);transform:rotate(-1.2deg);margin:10px -10px 0;position:relative;z-index:2}
-.marquee .track{display:flex;width:max-content;animation:run 28s linear infinite}
-.marquee span{font:600 clamp(20px,2.4vw,30px)/1 var(--display);text-transform:uppercase;letter-spacing:.04em;padding:16px 0;white-space:nowrap}
-.marquee span::after{content:"✦";color:var(--red);margin:0 28px;font-size:.7em;vertical-align:.15em}
-@keyframes run{to{transform:translateX(-50%)}}
+/* shop photos */
+.shop{padding:0 0 clamp(20px,4vw,40px)}
+.shop-grid{display:grid;grid-template-columns:.8fr 1.4fr;grid-template-rows:auto auto;gap:18px}
+.shot{margin:0;position:relative;overflow:hidden;border-radius:var(--r);background:#1b1b1b}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.shot:hover img{transform:scale(1.04)}
+.shot.tall{grid-row:span 2;min-height:420px}
+.shot.tall img{position:absolute;inset:0}
+.shot.wide{aspect-ratio:3/2}
+.shot figcaption{position:absolute;left:0;bottom:0;right:0;padding:40px 18px 16px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font:600 18px/1.2 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.shot figcaption .mono{display:block;color:var(--red);font:600 11px/1 var(--mono);letter-spacing:.14em;margin-bottom:6px}
+.shop-note{border:1px solid var(--ink);border-radius:var(--r);padding:22px;display:flex;gap:18px;align-items:center}
+.shop-note b{font:700 clamp(34px,4vw,52px)/1 var(--display);color:var(--red);white-space:nowrap}
+.shop-note span{color:var(--ink-2)}
+@media (max-width:760px){.shop-grid{grid-template-columns:1fr}.shot.tall{grid-row:auto;aspect-ratio:4/4.4}}
 
 /* sections */
 section{padding:clamp(70px,9vw,120px) 0}
@@ -186,7 +195,7 @@ h2{font:700 clamp(40px,6vw,78px)/.92 var(--display);text-transform:uppercase;mar
 .ba-wrap{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:stretch}
 .ba{position:relative;border-radius:var(--r);overflow:hidden;background:#1b1b1b;aspect-ratio:16/9;user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:ew-resize}
 .ba .layer{position:absolute;inset:0}
-.ba .layer svg{width:100%;height:100%;display:block}
+.ba .layer img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .ba .after{clip-path:inset(0 0 0 var(--pos,50%))}
 .ba .handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none}
 .ba .knob{position:absolute;top:50%;left:50%;width:54px;height:54px;border-radius:50%;background:var(--red);transform:translate(-50%,-50%);display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.4)}
@@ -384,8 +393,15 @@ footer p{margin:0 0 8px}
       <div class="hint">Наведите или коснитесь</div>
     </div>
   </div>
-  <div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
 </header>
+
+<section class="shop" aria-label="Наш цех">
+  <div class="wrap shop-grid">
+    <figure class="shot tall rv"><img src="img/shop-polish.jpg" alt="Мастер полирует капот машины в цехе детейлинга" loading="lazy" width="1024" height="1280"><figcaption><span class="mono">ЦЕХ 01</span> Детейлинг и полировка</figcaption></figure>
+    <figure class="shot wide rv"><img src="img/shop-service.jpg" alt="Машина на подъёмнике, механик меняет масло" loading="lazy" width="1536" height="1024"><figcaption><span class="mono">ЦЕХ 02</span> ТО и ремонт на подъёмниках</figcaption></figure>
+    <div class="shop-note rv"><b>4 поста</b><span>два подъёмника, бокс мойки и тёплый бокс для полировки и керамики</span></div>
+  </div>
+</section>
 
 <section id="services">
   <div class="wrap">
@@ -440,7 +456,7 @@ footer p{margin:0 0 8px}
     <div class="sec-head rv">
       <div class="sec-num">03 / ДО И ПОСЛЕ</div>
       <h2>Тяните ползунок</h2>
-      <p class="sec-sub">Так на сайте выглядит сравнение «до/после». У реального сервиса здесь будут фото его работ.</p>
+      <p class="sec-sub">Одна и та же машина до и после. У реального сервиса здесь будут фото его работ.</p>
     </div>
     <div class="ba-wrap rv ba-stage" id="baStage">
       <div class="ba" id="baBox">
@@ -453,7 +469,7 @@ footer p{margin:0 0 8px}
       <div class="ba-side">
         <button class="ba-tab" data-mode="polish" aria-pressed="true"><b>Полировка</b><span>Тусклый кузов, пыль и паутинка царапин против глубокого блеска</span></button>
         <button class="ba-tab" data-mode="wash" aria-pressed="false"><b>Мойка</b><span>Грязь после трассы против чистой машины</span></button>
-        <p class="ba-cap">Иллюстрация, а не фото реальной работы</p>
+        <p class="ba-cap">Фото сгенерированы для демо, это не работа реального сервиса</p>
       </div>
     </div>
   </div>
@@ -649,10 +665,6 @@ tacho.addEventListener('pointerenter', () => revving = true);
 tacho.addEventListener('pointerleave', () => revving = false);
 tacho.addEventListener('pointerdown', e => { revving = true; if (e.pointerType !== 'mouse') setTimeout(() => revving = false, 1200); });
 
-/* ---------- marquee ---------- */
-const mqWords = ['Плановое ТО', 'Диагностика', 'Шиномонтаж', 'Полировка', 'Керамика', 'Химчистка', 'Мойка', 'Плёнка на фары'];
-$('#mq').innerHTML = [...mqWords, ...mqWords].map(w => `<span>${w}</span>`).join('');
-
 /* ---------- services grid ---------- */
 $('#svcGrid').innerHTML = SERVICES.map((s, i) => `
   <article class="svc rv" style="transition-delay:${(i % 4) * 70}ms">
@@ -745,82 +757,17 @@ function update() {
 $('#toBook').addEventListener('click', () => toast('Набор услуг перенесён в запись'));
 
 /* ---------- before / after ---------- */
-function carSVG(kind, mode) {
-  const after = kind === 'after';
-  const id = kind + mode;
-  const bodyFill = after ? `url(#paint${id})` : (mode === 'wash' ? '#7a7466' : '#5f6670');
-  const bg = after
-    ? `<rect width="800" height="450" fill="url(#bg${id})"/><ellipse cx="400" cy="372" rx="330" ry="22" fill="#000" opacity=".45"/>`
-    : `<rect width="800" height="450" fill="url(#bg${id})"/><ellipse cx="400" cy="372" rx="330" ry="22" fill="#000" opacity=".35"/>`;
-  const defs = `
-    <linearGradient id="bg${id}" x1="0" y1="0" x2="0" y2="1">
-      ${after ? '<stop offset="0" stop-color="#2a2a2e"/><stop offset=".72" stop-color="#151518"/><stop offset="1" stop-color="#0c0c0d"/>'
-              : '<stop offset="0" stop-color="#4a4741"/><stop offset=".72" stop-color="#34322d"/><stop offset="1" stop-color="#26241f"/>'}
-    </linearGradient>
-    <linearGradient id="paint${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ff6a3d"/><stop offset=".42" stop-color="#ff3b0a"/><stop offset=".58" stop-color="#b52300"/><stop offset="1" stop-color="#5a1100"/>
-    </linearGradient>
-    <linearGradient id="glass${id}" x1="0" y1="0" x2="1" y2="1">
-      ${after ? '<stop offset="0" stop-color="#9fb3c6"/><stop offset=".5" stop-color="#1c2833"/><stop offset="1" stop-color="#0d1218"/>'
-              : '<stop offset="0" stop-color="#77756d"/><stop offset="1" stop-color="#3b3a36"/>'}
-    </linearGradient>
-    <filter id="dust${id}" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="${mode === 'wash' ? '.018 .05' : '.9'}" numOctaves="3" seed="4"/>
-      <feColorMatrix values="0 0 0 0 .55  0 0 0 0 .5  0 0 0 0 .42  0 0 0 ${mode === 'wash' ? '1.6' : '.9'} -.35"/>
-      <feComposite in2="SourceGraphic" operator="in"/>
-    </filter>
-    <clipPath id="clip${id}"><path d="${BODY}"/></clipPath>`;
-  const wheels = [210, 595].map(x => `
-    <circle cx="${x}" cy="330" r="58" fill="#0b0b0b"/>
-    <circle cx="${x}" cy="330" r="38" fill="${after ? '#c9ccd1' : '#6c6a63'}"/>
-    <g stroke="${after ? '#7a7e85' : '#4a4843'}" stroke-width="7" stroke-linecap="round">
-      ${[0, 72, 144, 216, 288].map(a => { const r = a * Math.PI / 180; return `<line x1="${x}" y1="330" x2="${x + 32 * Math.cos(r)}" y2="${330 + 32 * Math.sin(r)}"/>`; }).join('')}
-    </g>
-    <circle cx="${x}" cy="330" r="9" fill="${after ? '#ff3b0a' : '#3d3b36'}"/>
-    ${after ? '' : `<path d="M${x - 50} 300 q20 -20 50 -22" stroke="#8a7f68" stroke-width="10" fill="none" opacity=".6"/>`}`).join('');
-  let extra = '';
-  if (after) {
-    extra = `
-      <g clip-path="url(#clip${id})">
-        <path d="M70 230 C 250 215, 560 210, 760 236 L760 248 C 560 222, 250 226, 70 242 Z" fill="#fff" opacity=".55"/>
-        <path d="M300 150 L 560 150 L 520 210 L 270 210 Z" fill="#fff" opacity=".07"/>
-        <rect x="0" y="0" width="140" height="450" fill="url(#shine${id})" transform="skewX(-20)">
-          <animate attributeName="x" values="-300;1100" dur="3.6s" repeatCount="indefinite"/>
-        </rect>
-      </g>
-      <linearGradient id="shine${id}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-      ${[[330, 158, 0], [612, 214, .8], [140, 250, 1.5], [470, 236, 2.1]].map(([x, y, d]) => `<path class="sparkle" style="animation-delay:${d}s" d="M${x} ${y - 14} L${x + 3} ${y - 3} L${x + 14} ${y} L${x + 3} ${y + 3} L${x} ${y + 14} L${x - 3} ${y + 3} L${x - 14} ${y} L${x - 3} ${y - 3} Z" fill="#fff"/>`).join('')}
-      <ellipse cx="722" cy="252" rx="22" ry="11" fill="#fff8d0"/>
-      <ellipse cx="722" cy="252" rx="60" ry="26" fill="#fff3a8" opacity=".18"/>`;
-  } else {
-    extra = `
-      <g clip-path="url(#clip${id})">
-        <rect width="800" height="450" fill="#fff" filter="url(#dust${id})"/>
-        ${mode === 'polish'
-          ? Array.from({length: 26}, (_, i) => { const x = 120 + (i * 97) % 560, y = 170 + (i * 53) % 130, r = 18 + (i * 7) % 26; return `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="#c9c5bb" stroke-width=".8" opacity=".45"/>`; }).join('')
-          : `<path d="M60 300 Q 140 250 220 296 T 400 290 T 580 300 T 770 286 L770 380 L60 380 Z" fill="#6b5a3e" opacity=".75"/>
-             ${Array.from({length: 18}, (_, i) => `<circle cx="${80 + i * 38}" cy="${262 + (i * 17) % 34}" r="${4 + (i * 3) % 7}" fill="#5c4c33" opacity=".8"/>`).join('')}`}
-      </g>
-      <ellipse cx="722" cy="252" rx="22" ry="11" fill="#9b9786"/>`;
-  }
-  return `<svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${bg}
-    <path d="${BODY}" fill="${bodyFill}"/>
-    <path d="${GLASS}" fill="url(#glass${id})"/>
-    <path d="M415 152 L 422 226" stroke="${after ? '#3a0b00' : '#3e3c37'}" stroke-width="5"/>
-    <path d="M300 238 L 690 238" stroke="${after ? '#6e1600' : '#4c4b46'}" stroke-width="2" opacity=".7"/>
-    <rect x="455" y="244" width="34" height="6" rx="3" fill="${after ? '#2a0700' : '#3e3c37'}"/>
-    <rect x="305" y="244" width="34" height="6" rx="3" fill="${after ? '#2a0700' : '#3e3c37'}"/>
-    ${extra}
-    ${wheels}
-  </svg>`;
-}
-const BODY = 'M62 322 C 54 300, 58 262, 90 250 C 130 236, 200 232, 262 226 C 300 186, 350 156, 420 150 C 500 144, 560 160, 618 210 C 680 216, 735 228, 752 252 C 764 270, 764 300, 752 322 L 662 322 A 68 68 0 0 0 528 322 L 278 322 A 68 68 0 0 0 142 322 Z';
-const GLASS = 'M290 224 C 322 190, 362 168, 410 164 L 416 224 Z M 432 164 C 490 162, 540 178, 586 216 L 428 224 Z';
+const BA = {
+  polish: { before: 'img/polish-before.jpg', after: 'img/polish-after.jpg', alt: 'чёрный седан' },
+  wash: { before: 'img/wash-before.jpg', after: 'img/wash-after.jpg', alt: 'серый кроссовер' },
+};
+Object.values(BA).forEach(m => [m.before, m.after].forEach(src => { const i = new Image(); i.src = src; }));
 
 const baBox = $('#baBox'), baRange = $('#baRange');
 function setMode(mode) {
-  $('#baBefore').innerHTML = carSVG('before', mode);
-  $('#baAfter').innerHTML = carSVG('after', mode);
+  const m = BA[mode];
+  $('#baBefore').innerHTML = `<img src="${m.before}" alt="До: ${m.alt}" width="1536" height="864">`;
+  $('#baAfter').innerHTML = `<img src="${m.after}" alt="После: ${m.alt}" width="1536" height="864">`;
   $$('.ba-tab').forEach(t => t.setAttribute('aria-pressed', t.dataset.mode === mode));
 }
 setMode('polish');
